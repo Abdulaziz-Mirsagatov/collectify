@@ -62,77 +62,77 @@ model Collection {
     description String?
     topic       String
     image       String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
     userId      String   @db.ObjectId
     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     categoryId  String   @db.ObjectId
     category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
     items       Item[]
-    customFieldIds String[] @db.ObjectId
-    customFields   CustomField[] @relation(fields: [customFieldIds], references: [id])
+    customFields   CustomField[]
 }
 
 model Item {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     name        String
-    collectionId String  @db.ObjectId
-    collection  Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
-    tagIds      String[] @db.ObjectId
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
+    collectionId String  @db.ObjectId
+    collection  Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
     comments    Comment[]
     likes       Like[]
-    tags        Tag[] @relation(fields: [tagIds], references: [id])
+    tags        Tag[]
     customFieldValues  ItemCustomFieldValue[]
 }
 
 model Comment {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     content     String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
     itemId      String   @db.ObjectId
     item        Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
     userId      String   @db.ObjectId
     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    createdAt   DateTime @default(now())
 }
 
 model Like {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
-    itemId      String   @db.ObjectId
-    item        Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
-    userId      String   @db.ObjectId
-    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
+    itemId      String   @db.ObjectId
+    item        Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId      String   @db.ObjectId
 }
 
 model Tag {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     name        String
     createdAt   DateTime @default(now())
-    itemIds     String[] @db.ObjectId
-    items       Item[]  @relation(fields: [itemIds], references: [id])
+    updatedAt   DateTime @updatedAt
+    itemId      String @db.ObjectId
+    item        Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
 }
 
 model CustomField {
     id          String   @id @default(auto()) @map("_id") @db.ObjectId
     name        String
     type        String
-    collectionIds      String[]   @db.ObjectId
-    collections        Collection[] @relation(fields: [collectionIds], references: [id])
+    collectionId      String   @db.ObjectId
+    collection        Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
     customFieldValues  ItemCustomFieldValue[]
 }
 
 model ItemCustomFieldValue {
     id              String  @id @default(auto()) @map("_id") @db.ObjectId
-    itemId          String  @db.ObjectId
-    customFieldId   String  @db.ObjectId
     stringValue     String?
     intValue        Int?
     multilineValue  String?
     booleanValue    Boolean?
     dateValue       DateTime?
+    itemId          String  @db.ObjectId
     item            Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
+    customFieldId   String  @db.ObjectId
     customField     CustomField @relation(fields: [customFieldId], references: [id], onDelete: Cascade)
 }
