@@ -13,7 +13,7 @@ const RegisterPage = () => {
         <RegularInput type="password" placeholder="Password" required />
         <RegularInput type="password" placeholder="Confirm Password" required />
 
-        <button type="submit" className="button button-success mt-4">
+        <button type="submit" className="button button-info mt-4">
           Register
         </button>
       </form>
