@@ -18,7 +18,7 @@ const RegisterPage = () => {
         </button>
       </form>
 
-      <p className="text-center text-sm text-light-gray">
+      <p className="text-center text-sm">
         Already have an account?{" "}
         <Link
           href={`login`}
