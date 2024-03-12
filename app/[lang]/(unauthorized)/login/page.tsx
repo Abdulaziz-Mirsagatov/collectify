@@ -10,7 +10,7 @@ const LoginPage = () => {
         <RegularInput type="text" placeholder="Username" required />
         <RegularInput type="password" placeholder="Password" required />
 
-        <button type="submit" className="button button-success mt-4">
+        <button type="submit" className="button button-info mt-4">
           Login
         </button>
       </form>

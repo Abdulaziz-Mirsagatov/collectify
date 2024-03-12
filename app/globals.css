@@ -8,6 +8,7 @@ body {
   --light: #ffffff;
   --light-gray: #d3d3d3;
   --info-blue: #3498db;
+  --info-blue-light: #2980b9;
   --warning-red: #e74c3c;
   --warning-red-light: #c0392b;
   --warning-yellow: #f39c12;
@@ -30,6 +31,24 @@ body {
 
   &:hover {
     background-color: var(--success-green-light);
+  }
+}
+
+.button.button-warning {
+  background-color: var(--warning-yellow);
+  color: var(--light);
+
+  &:hover {
+    background-color: var(--warning-yellow-light);
+  }
+}
+
+.button.button-info {
+  background-color: var(--info-blue);
+  color: var(--light);
+
+  &:hover {
+    background-color: var(--info-blue-light);
   }
 }
 
