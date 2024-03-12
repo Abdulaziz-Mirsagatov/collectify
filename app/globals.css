@@ -3,32 +3,34 @@
 @tailwind utilities;
 
 body {
-  --background-color: #1a1a1a;
-  --foreground-color: #ffffff;
-  --primary-accent: #3498db;
-  --secondary-accent: #e74c3c;
+  --dark: #1a1a1a;
+  --dark-gray: #333333;
+  --light: #ffffff;
+  --light-gray: #d3d3d3;
+  --info-blue: #3498db;
+  --warning-red: #e74c3c;
+  --warning-red-light: #c0392b;
+  --warning-yellow: #f39c12;
+  --warning-yellow-light: #d35400;
+  --success-green: #2ecc71;
+  --success-green-light: #27ae60;
 }
 
-body.light-theme {
-  --background-color: #f5f5f5;
-  --foreground-color: #1a1a1a;
+.button {
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
 }
 
-@media (prefers-color-scheme: light) {
-  body {
-    --background-color: #f5f5f5;
-    --foreground-color: #1a1a1a;
+.button.button-success {
+  background-color: var(--success-green);
+  color: var(--light);
+
+  &:hover {
+    background-color: var(--success-green-light);
   }
-
-  body.dark-theme {
-    --background-color: #1a1a1a;
-    --foreground-color: #ffffff;
-  }
-}
-
-body {
-  background-color: var(--background-color);
-  color: var(--foreground-color);
 }
 
 @layer utilities {
