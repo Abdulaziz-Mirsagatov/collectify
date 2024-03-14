@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   description: "A simple way to collect and share your favorite things.",
 };
 
+export async function generateStaticParams() {
+  return [{ lang: "en" }, { lang: "ru" }];
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
