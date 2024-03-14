@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { NavbarProps } from "./types";
 import ThemeToggler from "@/components/Atoms/Button/Toggler/Theme";
+import LanguageSelectInput from "@/components/Atoms/Input/Select/Language";
+import { getDictionary } from "@/app/dictionaries";
 
-const Navbar = ({ navLinks }: NavbarProps) => {
+const Navbar = async ({ navLinks, lang }: NavbarProps) => {
+  const dict = await getDictionary(lang);
+
   return (
     <nav className="w-full bg-light-gray dark:bg-dark-gray flex px-6 p-4 shadow-md h-16">
       <ul className="grow flex gap-12 justify-end items-center">
+        <LanguageSelectInput dict={dict.component.languageSelectInput} />
         <ThemeToggler />
         {navLinks.map((link, index) => (
           <li
