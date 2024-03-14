@@ -26,7 +26,7 @@ export default async function UnauthorizedLayout({
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar navLinks={navLinks} dictionary={dict} />
+      <Navbar navLinks={navLinks} dictionary={dict} lang={lang} />
       <div className="grow relative">{children}</div>
     </div>
   );

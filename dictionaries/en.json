@@ -36,6 +36,10 @@
       "register": "Register",
       "logout": "Logout",
       "collections": "Collections"
+    },
+    "languageSelectInput": {
+      "en": "English",
+      "ru": "Russian"
     }
   }
 }
