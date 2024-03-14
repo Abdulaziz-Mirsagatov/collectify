@@ -4,7 +4,7 @@ import ThemeToggler from "@/components/Atoms/Button/Toggler/Theme";
 
 const Navbar = ({ navLinks }: NavbarProps) => {
   return (
-    <nav className="w-full bg-light-gray dark:bg-dark-gray flex px-6 p-4">
+    <nav className="w-full bg-light-gray dark:bg-dark-gray flex px-6 p-4 shadow-md h-16">
       <ul className="grow flex gap-12 justify-end items-center">
         <ThemeToggler />
         {navLinks.map((link, index) => (

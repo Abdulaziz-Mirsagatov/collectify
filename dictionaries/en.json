@@ -1,0 +1,41 @@
+{
+  "page": {
+    "register": {
+      "title": "Register",
+      "email": "Email",
+      "username": "Username",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "register": "Register",
+      "login": "Login",
+      "usernameError": "Username is required",
+      "passwordError": "Password is required",
+      "confirmPasswordError": "Confirm Password is required",
+      "footer": "Already have an account?",
+      "emailError": "Email is required",
+      "passwordNotMatch": "Password not match",
+      "registerSuccess": "Register success",
+      "registerFail": "Register fail"
+    },
+    "login": {
+      "title": "Login",
+      "username": "Username",
+      "password": "Password",
+      "login": "Login",
+      "footer": "Don't have an account?",
+      "register": "Register",
+      "emailError": "Email is required",
+      "passwordError": "Password is required",
+      "loginFail": "Login fail"
+    }
+  },
+  "component": {
+    "navbar": {
+      "home": "Home",
+      "login": "Login",
+      "register": "Register",
+      "logout": "Logout",
+      "collections": "Collections"
+    }
+  }
+}

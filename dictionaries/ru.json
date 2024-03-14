@@ -1,0 +1,41 @@
+{
+  "page": {
+    "register": {
+      "title": "Регистрация",
+      "email": "Электронная почта",
+      "username": "Имя пользователя",
+      "password": "Пароль",
+      "confirmPassword": "Подтвердите пароль",
+      "register": "Зарегистрироваться",
+      "login": "Войти",
+      "usernameError": "Требуется имя пользователя",
+      "passwordError": "Требуется пароль",
+      "confirmPasswordError": "Требуется подтвердить пароль",
+      "footer": "Уже есть аккаунт?",
+      "emailError": "Требуется электронная почта",
+      "passwordNotMatch": "Пароли не совпадают",
+      "registerSuccess": "Регистрация прошла успешно",
+      "registerFail": "Не удалось зарегистрироваться"
+    },
+    "login": {
+      "title": "Вход",
+      "username": "Имя пользователя",
+      "password": "Пароль",
+      "login": "Войти",
+      "register": "Зарегистрироваться",
+      "footer": "Нет аккаунта?",
+      "emailError": "Требуется электронная почта",
+      "passwordError": "Требуется пароль",
+      "loginFail": "Ошибка входа"
+    }
+  },
+  "component": {
+    "navbar": {
+      "home": "Главная",
+      "login": "Вход",
+      "register": "Регистрация",
+      "logout": "Выйти",
+      "collections": "Коллекции"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 export interface NavbarProps {
   navLinks: NavLink[];
+  dictionary: Record<string, any>;
   image?: string;
 }
 

@@ -1,27 +1,32 @@
+import { getDictionary } from "@/app/dictionaries";
 import Navbar from "@/components/Organisms/Navbar";
 import { NavLink } from "@/components/Organisms/Navbar/types";
+import { Locale } from "@/i18n-config";
 
-const LOCALE = "en";
-
-export default function UnauthorizedLayout({
+export default async function UnauthorizedLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: { lang: Locale };
 }>) {
+  const { lang } = params;
+  const dict = await getDictionary(lang);
+
   const navLinks: NavLink[] = [
     {
-      label: "Home",
-      href: `/${LOCALE}`,
+      label: dict.component.navbar.home,
+      href: `/${lang}`,
     },
     {
-      label: "Collections",
+      label: dict.component.navbar.collections,
       href: `collections`,
     },
   ];
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar navLinks={navLinks} />
+      <Navbar navLinks={navLinks} dictionary={dict} />
       <div className="grow relative">{children}</div>
     </div>
   );
