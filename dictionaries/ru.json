@@ -26,7 +26,8 @@
       "footer": "Нет аккаунта?",
       "emailError": "Требуется электронная почта",
       "passwordError": "Требуется пароль",
-      "loginFail": "Ошибка входа"
+      "loginFail": "Ошибка входа",
+      "invalidCredentials": "Неверные учетные данные"
     }
   },
   "component": {

@@ -26,7 +26,8 @@
       "register": "Register",
       "emailError": "Email is required",
       "passwordError": "Password is required",
-      "loginFail": "Login fail"
+      "loginFail": "Login fail",
+      "invalidCredentials": "Invalid credentials"
     }
   },
   "component": {

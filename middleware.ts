@@ -1,6 +1,7 @@
 import { match } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "./auth";
 
 const defaultLocale = "en";
 const locales = ["en", "ru"];
@@ -19,28 +20,25 @@ function getLocale(request: NextRequest) {
   return locale;
 }
 
-export function middleware(request: NextRequest) {
+export default auth((request) => {
   // Check if there is any supported locale in the pathname
   const { pathname } = request.nextUrl;
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (pathnameHasLocale) return;
+  if (!pathnameHasLocale) return;
 
   // Redirect if there is no locale
   const locale = getLocale(request);
   request.nextUrl.pathname = `/${locale}${pathname}`;
   // e.g. incoming request is /products
-  // The new URL is now /en-US/products
+  // The new URL is now /en/products
   return NextResponse.redirect(request.nextUrl);
-}
+});
 
+// Optionally, don't invoke Middleware on some paths
+// Read more: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
 export const config = {
-  matcher: [
-    // Skip all internal paths (_next)
-    "/((?!_next).*)",
-    // Optional: only run on root (/) URL
-    // '/'
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
