@@ -27,7 +27,7 @@ export default auth((request) => {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (!pathnameHasLocale) return;
+  if (pathnameHasLocale) return;
 
   // Redirect if there is no locale
   const locale = getLocale(request);
