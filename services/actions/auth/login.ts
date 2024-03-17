@@ -7,11 +7,9 @@ export const login = async (
   credentials: CredentialsInteface,
   redirectPath: string
 ) => {
-  const res = await signIn("credentials", {
+  await signIn("credentials", {
     username: credentials.username,
     password: credentials.password,
     redirectTo: redirectPath,
   });
-
-  return res;
 };

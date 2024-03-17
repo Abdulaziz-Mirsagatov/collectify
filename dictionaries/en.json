@@ -2,6 +2,7 @@
   "page": {
     "register": {
       "title": "Register",
+      "name": "Name",
       "email": "Email",
       "username": "Username",
       "password": "Password",
@@ -12,10 +13,16 @@
       "passwordError": "Password is required",
       "confirmPasswordError": "Confirm Password is required",
       "footer": "Already have an account?",
-      "emailError": "Email is required",
-      "passwordNotMatch": "Password not match",
-      "registerSuccess": "Register success",
-      "registerFail": "Register fail"
+      "errors": {
+        "nameInvalid": "Name must be at least 2 characters long",
+        "emailInvalid": "Invalid email address",
+        "usernameInvalid": "Username must be at least 2 characters long",
+        "passwordInvalidLength": "Password must be at least 8 characters long",
+        "passwordInvalid": "Password must contain at least one letter and one number",
+        "passwordsNotMatch": "Passwords do not match",
+        "emailExists": "User with this email already exists",
+        "usernameExists": "User with this username already exists"
+      }
     },
     "login": {
       "title": "Login",

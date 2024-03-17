@@ -52,6 +52,28 @@ body {
   }
 }
 
+.button.submitting {
+  background-color: var(--dark-gray);
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: var(--warning-red);
+  font-weight: bold;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--dark);
+}
+
+.input.error {
+  border-color: var(--warning-red);
+  outline: none;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
