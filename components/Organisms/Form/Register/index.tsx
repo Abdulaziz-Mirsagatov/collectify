@@ -57,7 +57,7 @@ const RegisterForm = ({ dict }: RegisterFormProps) => {
         <input
           type="text"
           className={`input ${errors.email ? "error" : ""}`}
-          placeholder={dict.errors.emailInvalid}
+          placeholder={dict.email}
           {...register("email")}
         />
         {errors.email && (

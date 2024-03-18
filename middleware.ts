@@ -21,17 +21,47 @@ function getLocale(request: NextRequest) {
 }
 
 export default auth((request) => {
+  const isLoggedIn = !!request.auth;
   // Check if there is any supported locale in the pathname
   const { pathname } = request.nextUrl;
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (pathnameHasLocale) return;
+  if (pathnameHasLocale) {
+    // Redirect to the home page if the user is logged in and tries to access the login or register page
+    let pathLocale = "";
+    locales.forEach((locale) => {
+      if (
+        (request.nextUrl.pathname.startsWith(`/${locale}/login`) ||
+          request.nextUrl.pathname.startsWith(`/${locale}/register`)) &&
+        isLoggedIn
+      ) {
+        request.nextUrl.pathname = `/${locale}/`;
+        pathLocale = locale;
+        return;
+      }
+    });
+
+    if (pathLocale) return NextResponse.redirect(request.nextUrl);
+    return;
+  }
 
   // Redirect if there is no locale
   const locale = getLocale(request);
   request.nextUrl.pathname = `/${locale}${pathname}`;
+
+  // Redirect to the home page if the user is logged in and tries to access the login or register page
+  locales.forEach((locale) => {
+    if (
+      (request.nextUrl.pathname.startsWith(`/${locale}/login`) ||
+        request.nextUrl.pathname.startsWith(`/${locale}/register`)) &&
+      isLoggedIn
+    ) {
+      request.nextUrl.pathname = `/${locale}/`;
+      return;
+    }
+  });
   // e.g. incoming request is /products
   // The new URL is now /en/products
   return NextResponse.redirect(request.nextUrl);

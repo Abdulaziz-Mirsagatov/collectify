@@ -43,7 +43,9 @@
       "login": "Login",
       "register": "Register",
       "logout": "Logout",
-      "collections": "Collections"
+      "collections": "Collections",
+      "personalPage": "Personal page",
+      "users": "Users"
     },
     "languageSelectInput": {
       "en": "English",
