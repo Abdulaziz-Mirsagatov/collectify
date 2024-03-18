@@ -50,6 +50,21 @@
     "languageSelectInput": {
       "en": "English",
       "ru": "Russian"
+    },
+    "table": {
+      "collections": {
+        "name": "Name",
+        "topic": "Topic"
+      }
+    },
+    "button": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "add": "Add",
+      "save": "Save",
+      "cancel": "Cancel",
+      "create": "Create",
+      "view": "View"
     }
   }
 }

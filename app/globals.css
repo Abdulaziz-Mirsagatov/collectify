@@ -18,11 +18,14 @@ body {
 }
 
 .button {
-  padding: 0.6rem 1rem;
+  padding: 0.4rem 1rem;
   border-radius: 0.5rem;
+  font-size: large;
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 .button.button-success {
