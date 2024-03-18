@@ -43,7 +43,9 @@
       "login": "Вход",
       "register": "Регистрация",
       "logout": "Выйти",
-      "collections": "Коллекции"
+      "collections": "Коллекции",
+      "personalPage": "Личная страница",
+      "users": "Пользователи"
     },
     "languageSelectInput": {
       "en": "Английский",

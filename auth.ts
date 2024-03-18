@@ -34,17 +34,22 @@ export const {
         return {
           ...user,
           role: user.role ?? USER_ROLES.USER,
+          userId: user.id,
         };
       },
     }),
   ],
   callbacks: {
     jwt: async ({ token, user }) => {
-      if (user) token.role = user.role;
+      if (user) {
+        token.role = user.role;
+        token.userId = user.id;
+      }
       return token;
     },
     session: async ({ session, token }) => {
       session.user.role = token.role as USER_ROLES;
+      session.user.userId = token.userId as string;
       return session;
     },
   },

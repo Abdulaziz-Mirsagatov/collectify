@@ -8,9 +8,11 @@ export interface CredentialsInteface {
 declare module "next-auth" {
   interface User {
     role: USER_ROLES;
+    userId: string;
   }
 
   interface JWT {
     role: USER_ROLES;
+    userId: string;
   }
 }
