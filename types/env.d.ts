@@ -21,7 +21,6 @@ export interface Collection {
   id: string;
   name: string;
   description?: string;
-  topic: string;
   image?: string;
   userId: string;
   categoryId: string;
@@ -69,4 +68,8 @@ export interface Tag {
   itemId: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface ErrorResponse {
+  error: { message: string };
 }

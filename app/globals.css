@@ -101,10 +101,38 @@ body {
   }
 }
 
+@keyframes float-up {
+  from {
+    transform: translateY(-30%) translateX(-50%);
+  }
+  to {
+    transform: translateY(-50%) translateX(-50%);
+  }
+}
+
+@keyframes float-down {
+  from {
+    transform: translateY(-50%) translateX(-50%);
+  }
+  to {
+    transform: translateY(-30%) translateX(-50%);
+  }
+}
+
 .animate-fade-in {
   animation: fade-in 0.3s ease-in-out forwards;
 }
 
 .animate-fade-out {
   animation: fade-out 0.3s ease-in-out forwards;
+}
+
+.animate-modal-open {
+  animation: float-up 0.3s ease-in-out forwards,
+    fade-in 0.3s ease-in-out forwards;
+}
+
+.animate-modal-close {
+  animation: float-down 0.3s ease-in-out forwards,
+    fade-out 0.3s ease-in-out forwards;
 }

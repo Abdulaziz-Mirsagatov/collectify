@@ -53,8 +53,12 @@
     },
     "table": {
       "collections": {
-        "name": "Название",
-        "topic": "Тема"
+        "name": "Имя",
+        "category": "Категория",
+        "description": "Описание",
+        "author": "Автор",
+        "fieldName": "Имя поля",
+        "fieldType": "Тип поля"
       }
     },
     "button": {
@@ -64,6 +68,28 @@
       "save": "Сохранить",
       "cancel": "Отмена",
       "view": "Просмотр"
+    },
+    "form": {
+      "collection": {
+        "name": "Имя",
+        "category": "Категория",
+        "description": "Описание",
+        "submit": "Отправить",
+        "cancel": "Отмена"
+      }
     }
+  },
+  "categories": {
+    "books": "Книги",
+    "signs": "Знаки",
+    "silverware": "Серебряные изделия",
+    "other": "Другое"
+  },
+  "fieldTypes": {
+    "text": "Текст",
+    "number": "Число",
+    "date": "Дата",
+    "boolean": "Да/Нет",
+    "multiline": "Многострочный текст"
   }
 }
