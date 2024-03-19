@@ -50,6 +50,45 @@
     "languageSelectInput": {
       "en": "English",
       "ru": "Russian"
+    },
+    "table": {
+      "collections": {
+        "name": "Name",
+        "category": "Category",
+        "description": "Description",
+        "author": "Author"
+      }
+    },
+    "button": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "add": "Add",
+      "save": "Save",
+      "cancel": "Cancel",
+      "create": "Create",
+      "view": "View"
+    },
+    "form": {
+      "collection": {
+        "name": "Name",
+        "category": "Category",
+        "description": "Description",
+        "fieldName": "Field Name",
+        "fieldType": "Field Type"
+      }
     }
+  },
+  "categories": {
+    "books": "Books",
+    "silverware": "Silverware",
+    "signs": "Signs",
+    "other": "Other"
+  },
+  "fieldTypes": {
+    "text": "Text",
+    "number": "Number",
+    "date": "Date",
+    "boolean": "Boolean",
+    "multiline": "Multiline"
   }
 }

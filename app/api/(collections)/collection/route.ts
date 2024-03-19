@@ -12,9 +12,8 @@ export async function POST(req: PostCollectionRequest) {
   const newCollection = await prisma.collection.create({
     data: {
       name: collection.name,
-      description: collection.description,
-      topic: collection.topic,
-      image: collection.image,
+      description: collection.description ?? null,
+      image: collection.image ?? null,
       userId: collection.userId,
       categoryId: collection.categoryId,
     },

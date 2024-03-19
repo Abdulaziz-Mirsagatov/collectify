@@ -20,7 +20,7 @@ const getNavLinks = (
     },
     {
       label: dict.collections,
-      href: `collections`,
+      href: `/${lang}/collections`,
     },
   ];
 
@@ -60,8 +60,7 @@ const NavLinks = ({ session, dict, lang }: NavLinksProps) => {
       ))}
       {session && (
         <li
-          className="text-xl button button-info"
-          style={{ padding: "0.4rem 1.2rem" }}
+          className="text-xl button button-info w-24"
           onClick={async () => {
             await logout();
             router.push("login");
@@ -71,11 +70,8 @@ const NavLinks = ({ session, dict, lang }: NavLinksProps) => {
         </li>
       )}
       {!session && (
-        <li
-          className="text-xl button button-info"
-          style={{ padding: "0.4rem 1.2rem" }}
-        >
-          <Link href={"login"} className="py-2 -my-2 px-4 -mx-4">
+        <li>
+          <Link href={"login"} className="button button-info block w-24">
             {dict.login}
           </Link>
         </li>
