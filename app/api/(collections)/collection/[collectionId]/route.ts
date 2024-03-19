@@ -43,7 +43,6 @@ export async function PUT(
     data: {
       name: collection.name,
       description: collection.description,
-      topic: collection.topic,
       image: collection.image,
       categoryId: collection.categoryId,
     },

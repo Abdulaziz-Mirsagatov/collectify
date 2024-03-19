@@ -24,7 +24,7 @@ const RegularTableRow = <T extends Record<string, any>>({
         style={{ gridTemplateColumns: `repeat(${count}, 1fr)` }}
       >
         {columns.map((column) => (
-          <div className="grid gap-2">
+          <div className="grid gap-2" key={column}>
             <span className="font-bold text-xl text-center">
               {renderColumn(column, dict)}
             </span>
