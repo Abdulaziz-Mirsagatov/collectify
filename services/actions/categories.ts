@@ -1,8 +1,8 @@
 "use server";
 
-import { Category } from "@/types/env";
+import { Category, ErrorResponse } from "@/types/env";
 
-export const getCategories = async () => {
+export const getCategories = async (): Promise<Category[] | ErrorResponse> => {
   const res = await fetch(`${process.env.API_URL}/api/categories`);
   return res.json();
 };

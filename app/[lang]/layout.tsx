@@ -4,6 +4,7 @@ import "../globals.css";
 import Providers from "../providers";
 import Navbar from "@/components/Organisms/Navbar";
 import { Locale, i18n } from "@/i18n-config";
+import icon from "@/public/images/placeholder2.jpg";
 
 const roboto = Roboto({
   weight: "400",
@@ -13,6 +14,9 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   title: "Collectify",
   description: "A simple way to collect and share your favorite things.",
+  icons: {
+    icon: icon.src,
+  },
 };
 
 export async function generateStaticParams() {
@@ -33,10 +37,11 @@ export default function RootLayout({
       <body
         className={`${roboto.className} bg-light text-dark dark:bg-dark dark:text-light`}
       >
+        <link rel="icon" href="/assets/placeholder.jpg" sizes="any" />
         <Providers>
           <div className="min-h-screen flex flex-col">
             <Navbar lang={lang} />
-            <div className="grow flex flex-col">{children}</div>
+            <div className="grow flex flex-col px-24 py-8">{children}</div>
           </div>
         </Providers>
       </body>

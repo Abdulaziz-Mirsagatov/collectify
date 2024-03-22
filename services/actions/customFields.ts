@@ -18,3 +18,13 @@ export const addCustomField = async (customField: NewCustomField) => {
 
   return res.json();
 };
+
+export const getCustomFieldsByCollection = async (
+  collectionId: string
+): Promise<CustomField[]> => {
+  const res = await fetch(
+    `${process.env.API_URL}/api/customFields/byCollection/${collectionId}`
+  );
+
+  return res.json();
+};

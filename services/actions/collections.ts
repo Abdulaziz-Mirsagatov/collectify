@@ -31,3 +31,43 @@ export const addCollection = async (
   revalidateTag("collections");
   return res.json();
 };
+
+export const getCollection = async (
+  id: string
+): Promise<Collection | ErrorResponse> => {
+  const res = await fetch(`${process.env.API_URL}/api/collection/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    next: { tags: ["collections"] },
+  });
+
+  return res.json();
+};
+
+export type UpdatedCollection = Omit<NewCollection, "userId">;
+
+export const updateCollection = async (
+  id: string,
+  collection: UpdatedCollection
+) => {
+  const res = await fetch(`${process.env.API_URL}/api/collection/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ...collection }),
+  });
+
+  revalidateTag("collections");
+  return res.json();
+};
+
+export const deleteCollection = async (id: string) => {
+  const res = await fetch(`${process.env.API_URL}/api/collection/${id}`, {
+    method: "DELETE",
+  });
+
+  revalidateTag("collections");
+  return res.json();
+};

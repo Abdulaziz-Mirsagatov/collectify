@@ -27,12 +27,12 @@ const CollectionsTableContainer = async ({
         id: collection.id,
         name: collection.name,
         category: category.name,
-        author: user.username,
+        author: user.username ?? user.name,
       });
       buttons.push(
         <Link
           className="button button-info"
-          href={`collections/${collection.id}`}
+          href={`collections/collection/${collection.id}`}
           key={collection.id}
         >
           {dict.component.button.view}
@@ -48,6 +48,7 @@ const CollectionsTableContainer = async ({
         columns={["name", "category", "author"]}
         dict={dict.component.table.collections}
         buttons={buttons}
+        lang={lang}
       />
     </div>
   );

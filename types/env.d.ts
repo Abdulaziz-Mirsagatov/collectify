@@ -45,6 +45,19 @@ export interface CustomField {
   updatedAt: Date;
 }
 
+export interface ItemCustomFieldValue {
+  id: string;
+  stringValue?: string;
+  intValue?: number;
+  multilineValue?: string;
+  booleanValue?: boolean;
+  dateValue?: Date;
+  itemId: string;
+  customFieldId: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface Comment {
   id: string;
   content: string;

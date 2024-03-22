@@ -1,8 +1,33 @@
+import Image from "next/image";
 import { RegularTableRowProps } from "./types";
+import placeholder from "@/public/images/placeholder2.jpg";
+import { Locale } from "@/i18n-config";
 
-const renderItem = <T extends Record<string, any>>(row: T, column: string) => {
-  if (Object.hasOwn(row, column)) return row[column];
-  else return "-";
+const renderItem = <T extends Record<string, any>>(
+  row: T,
+  column: string,
+  locale: Locale,
+  dict: Record<string, any>
+) => {
+  if (Object.hasOwn(row, column)) {
+    if (typeof row[column] === "boolean") {
+      return row[column] ? dict.yes : dict.no;
+    }
+    if (!row[column] || row[column].length === 0) return "-";
+    else if (Array.isArray(row[column])) {
+      return row[column].join(", ");
+    } // if string has letter T and date
+    else if (
+      typeof row[column] === "string" &&
+      row[column].split("").some((l: string) => l === "T") &&
+      new Date(row[column])
+    ) {
+      return new Date(row[column]).toLocaleDateString(locale, {
+        timeZone: "Asia/Tashkent",
+      });
+    }
+    return row[column];
+  } else return "-";
 };
 
 const renderColumn = (column: string, dict: Record<string, any>) => {
@@ -16,9 +41,18 @@ const RegularTableRow = <T extends Record<string, any>>({
   count,
   dict,
   button,
+  lang,
 }: RegularTableRowProps<T>) => {
   return (
     <div className="flex bg-light-gray dark:bg-dark-gray rounded-xl shadow-lg p-4">
+      <div className="flex items-center justify-center-pr-4">
+        <Image
+          src={row.image ?? placeholder}
+          alt="collection image"
+          width={60}
+          className="rounded-full aspect-square"
+        />
+      </div>
       <div
         className="grow grid"
         style={{ gridTemplateColumns: `repeat(${count}, 1fr)` }}
@@ -28,7 +62,9 @@ const RegularTableRow = <T extends Record<string, any>>({
             <span className="font-bold text-xl text-center">
               {renderColumn(column, dict)}
             </span>
-            <span className="text-center">{renderItem(row, column)}</span>
+            <span className="text-center">
+              {renderItem(row, column, lang, dict)}
+            </span>
           </div>
         ))}
       </div>
