@@ -58,7 +58,15 @@
         "description": "Описание",
         "author": "Автор",
         "fieldName": "Имя поля",
-        "fieldType": "Тип поля"
+        "fieldType": "Тип поля",
+        "yes": "Да",
+        "no": "Нет"
+      },
+      "items": {
+        "name": "Имя",
+        "tags": "Теги",
+        "yes": "Да",
+        "no": "Нет"
       }
     },
     "button": {
@@ -69,13 +77,53 @@
       "cancel": "Отмена",
       "view": "Просмотр"
     },
+    "input": {
+      "tags": {
+        "placeholder": "Добавьте теги"
+      }
+    },
     "form": {
       "collection": {
         "name": "Имя",
         "category": "Категория",
         "description": "Описание",
+        "fieldName": "Имя поля",
+        "fieldType": "Тип поля",
+        "submit": "Отправить",
+        "cancel": "Отмена",
+        "addField": "Добавить поле",
+        "removeField": "Удалить поле"
+      },
+      "item": {
+        "name": "Имя",
+        "tags": "Теги",
+        "create": "Создать Элемент",
+        "update": "Обновить Элемент",
         "submit": "Отправить",
         "cancel": "Отмена"
+      }
+    },
+    "header": {
+      "collections": "Коллекции",
+      "personalPage": "Личная страница",
+      "users": "Пользователи",
+      "collection": "Коллекция",
+      "items": "Элементы"
+    },
+    "card": {
+      "collection": {
+        "name": "Имя",
+        "category": "Категория",
+        "description": "Описание",
+        "author": "Автор",
+        "none": "Нет"
+      },
+      "customFields": "Пользовательские поля"
+    },
+    "modal": {
+      "delete": {
+        "title": "Удаление",
+        "message": "Вы уверены, что хотите удалить"
       }
     }
   },
@@ -91,5 +139,10 @@
     "date": "Дата",
     "boolean": "Да/Нет",
     "multiline": "Многострочный текст"
-  }
+  },
+  "collection": "Коллекция",
+  "collections": "Коллекции",
+  "item": "Элемент",
+  "items": "Элементы",
+  "serverError": "Что то пошло не так на сервере"
 }

@@ -38,11 +38,11 @@ body {
 }
 
 .button.button-warning {
-  background-color: var(--warning-yellow);
+  background-color: var(--warning-red);
   color: var(--light);
 
   &:hover {
-    background-color: var(--warning-yellow-light);
+    background-color: var(--warning-red-light);
   }
 }
 

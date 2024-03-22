@@ -63,7 +63,7 @@ const NavLinks = ({ session, dict, lang }: NavLinksProps) => {
           className="text-xl button button-info w-24"
           onClick={async () => {
             await logout();
-            router.push("login");
+            router.push(`/${lang}/login`);
           }}
         >
           <button className="py-2 -my-2 px-4 -mx-4">{dict.logout}</button>
@@ -71,7 +71,10 @@ const NavLinks = ({ session, dict, lang }: NavLinksProps) => {
       )}
       {!session && (
         <li>
-          <Link href={"login"} className="button button-info block w-24">
+          <Link
+            href={`/${lang}/login`}
+            className="button button-info block w-24"
+          >
             {dict.login}
           </Link>
         </li>

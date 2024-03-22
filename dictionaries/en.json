@@ -56,7 +56,15 @@
         "name": "Name",
         "category": "Category",
         "description": "Description",
-        "author": "Author"
+        "author": "Author",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "items": {
+        "name": "Name",
+        "tags": "Tags",
+        "yes": "Yes",
+        "no": "No"
       }
     },
     "button": {
@@ -68,13 +76,51 @@
       "create": "Create",
       "view": "View"
     },
+    "input": {
+      "tags": {
+        "placeholder": "Add tags"
+      }
+    },
     "form": {
       "collection": {
         "name": "Name",
         "category": "Category",
         "description": "Description",
         "fieldName": "Field Name",
-        "fieldType": "Field Type"
+        "fieldType": "Field Type",
+        "addField": "Add field",
+        "removeField": "Remove field",
+        "create": "Create Collection",
+        "update": "Update Collection"
+      },
+      "item": {
+        "name": "Name",
+        "tags": "Tags",
+        "create": "Create Item",
+        "update": "Update Item"
+      }
+    },
+    "header": {
+      "collections": "Collections",
+      "personalPage": "Personal page",
+      "users": "Users",
+      "collection": "Collection",
+      "items": "Items"
+    },
+    "card": {
+      "collection": {
+        "name": "Name",
+        "category": "Category",
+        "description": "Description",
+        "author": "Author",
+        "none": "None"
+      },
+      "customFields": "Custom fields"
+    },
+    "modal": {
+      "delete": {
+        "title": "Delete",
+        "message": "Are you sure you want to delete"
       }
     }
   },
@@ -90,5 +136,10 @@
     "date": "Date",
     "boolean": "Boolean",
     "multiline": "Multiline"
-  }
+  },
+  "collection": "Collection",
+  "collections": "Collections",
+  "item": "Item",
+  "items": "Items",
+  "serverError": "Something went wrong on the server"
 }

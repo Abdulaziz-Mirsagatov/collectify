@@ -6,7 +6,11 @@ import { CollectionFormProps, FIELD_TYPE } from "./types";
 import { getCategories } from "@/services/actions/categories";
 import { Category, Collection } from "@/types/env";
 import RegularSelectInput from "@/components/Atoms/Input/Select/Regular";
-import { addCollection } from "@/services/actions/collections";
+import {
+  addCollection,
+  getCollection,
+  updateCollection,
+} from "@/services/actions/collections";
 import { useForm } from "react-hook-form";
 import { CollectionSchema, CollectionSchemaType } from "@/schemas/collection";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,7 +25,7 @@ const FIELD_TYPES = [
   { name: "multiline" },
 ];
 
-const CollectionForm = ({ dict, userId }: CollectionFormProps) => {
+const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category>(
@@ -37,11 +41,41 @@ const CollectionForm = ({ dict, userId }: CollectionFormProps) => {
   const [selectedFieldType3, setSelectedFieldType3] = useState<FIELD_TYPE>(
     FIELD_TYPES[0]
   );
+  const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
-    getCategories().then((categories) => {
+    getCategories().then((res) => {
+      if (Object.hasOwn(res, "error")) {
+        setServerError(true);
+        return;
+      }
+      const categories = res as Category[];
+      setServerError(false);
+
       setCategories(categories);
       setSelectedCategory(categories[0]);
+
+      if (type === "edit" && id) {
+        getCollection(id).then((res) => {
+          if (Object.hasOwn(res, "error")) {
+            setServerError(true);
+            return;
+          }
+
+          setServerError(false);
+          const collection = res as Collection;
+          reset({
+            name: collection.name,
+            description: collection.description,
+          });
+
+          const selectedCategory = categories.find(
+            (category) => category.id === collection.categoryId
+          );
+
+          setSelectedCategory(selectedCategory!);
+        });
+      }
     });
   }, []);
 
@@ -56,45 +90,62 @@ const CollectionForm = ({ dict, userId }: CollectionFormProps) => {
   });
 
   const onSubmit = async (data: CollectionSchemaType) => {
-    const res = await addCollection({
-      name: data.name,
-      description: data.description,
-      userId,
-      categoryId: selectedCategory!.id,
-    });
-    if (Object.hasOwn(res, "error")) return;
-    const collection = res as Collection;
+    if (type === "create") {
+      const res = await addCollection({
+        name: data.name,
+        description: data.description,
+        userId,
+        categoryId: selectedCategory!.id,
+      });
+      if (Object.hasOwn(res, "error")) {
+        setServerError(true);
+        return;
+      }
+      const collection = res as Collection;
+      setServerError(false);
 
-    const addCustomFieldRequests = [];
-    if (data.fieldName1)
-      addCustomFieldRequests.push(
-        addCustomField({
-          name: data.fieldName1,
-          type: selectedFieldType1.name,
-          collectionId: collection.id,
-        })
-      );
-    if (data.fieldName2)
-      addCustomFieldRequests.push(
-        addCustomField({
-          name: data.fieldName2,
-          type: selectedFieldType2.name,
-          collectionId: collection.id,
-        })
-      );
-    if (data.fieldName3)
-      addCustomFieldRequests.push(
-        addCustomField({
-          name: data.fieldName3,
-          type: selectedFieldType3.name,
-          collectionId: collection.id,
-        })
-      );
+      const addCustomFieldRequests = [];
+      if (data.fieldName1)
+        addCustomFieldRequests.push(
+          addCustomField({
+            name: data.fieldName1,
+            type: selectedFieldType1.name,
+            collectionId: collection.id,
+          })
+        );
+      if (data.fieldName2)
+        addCustomFieldRequests.push(
+          addCustomField({
+            name: data.fieldName2,
+            type: selectedFieldType2.name,
+            collectionId: collection.id,
+          })
+        );
+      if (data.fieldName3)
+        addCustomFieldRequests.push(
+          addCustomField({
+            name: data.fieldName3,
+            type: selectedFieldType3.name,
+            collectionId: collection.id,
+          })
+        );
 
-    await Promise.allSettled(addCustomFieldRequests);
+      await Promise.allSettled(addCustomFieldRequests);
+      reset();
+    } else {
+      const res = await updateCollection(id!, {
+        name: data.name,
+        description: data.description,
+        categoryId: selectedCategory!.id,
+      });
+      if (Object.hasOwn(res, "error")) {
+        setServerError(true);
+        return;
+      }
+      setServerError(false);
+    }
 
     setIsModalOpen(false);
-    reset();
   };
 
   const getDispatcher = (i: number) => {
@@ -130,10 +181,12 @@ const CollectionForm = ({ dict, userId }: CollectionFormProps) => {
       title="Create Collection"
       trigger={
         <button
-          className="button button-success w-32"
+          className={`button ${
+            type === "create" ? "button-success" : "button-info"
+          } min-w-32`}
           onClick={() => setIsModalOpen(true)}
         >
-          {dict.component.button.create}
+          {dict.component.button[type]}
         </button>
       }
     >
@@ -166,75 +219,87 @@ const CollectionForm = ({ dict, userId }: CollectionFormProps) => {
           {...register("description")}
         />
 
-        {Array.from({ length: customFieldCount }).map((_, i) => (
-          <>
-            <input
-              key={i}
-              type="text"
-              placeholder={dict.component.form.collection.fieldName}
-              className={`input ${
-                errors[
+        {type === "create" &&
+          Array.from({ length: customFieldCount }).map((_, i) => (
+            <>
+              <input
+                key={i}
+                type="text"
+                placeholder={dict.component.form.collection.fieldName}
+                className={`input ${
+                  errors[
+                    `fieldName${(i + 1).toString()}` as
+                      | "fieldName1"
+                      | "fieldName2"
+                      | "fieldName3"
+                  ]
+                    ? "error"
+                    : ""
+                }`}
+                {...register(
                   `fieldName${(i + 1).toString()}` as
                     | "fieldName1"
                     | "fieldName2"
                     | "fieldName3"
-                ]
-                  ? "error"
-                  : ""
-              }`}
-              {...register(
-                `fieldName${(i + 1).toString()}` as
-                  | "fieldName1"
-                  | "fieldName2"
-                  | "fieldName3"
-              )}
-            />
-            <div className="grid gap-1">
-              <p>{dict.component.form.collection.fieldType}</p>
-              <RegularSelectInput
-                options={FIELD_TYPES}
-                selected={getState(i + 1)}
-                setSelected={getDispatcher(i + 1)}
-                labelKey="name"
-                dict={dict}
-                dictKey="fieldTypes"
+                )}
               />
-            </div>
-          </>
-        ))}
-        <div className="flex justify-between">
-          {customFieldCount < MAX_CUSTOM_FIELDS && (
-            <p
-              className="cursor-pointer"
-              onClick={() => setCustomFieldCount((prev) => prev + 1)}
-            >
-              Add Field +
-            </p>
-          )}
-          {customFieldCount > 0 && (
-            <p
-              className="text-warning-red cursor-pointer"
-              onClick={() => {
-                setCustomFieldCount((prev) => prev - 1);
-                unregister(
-                  `fieldName${customFieldCount}` as
-                    | "fieldName1"
-                    | "fieldName2"
-                    | "fieldName3"
-                );
-              }}
-            >
-              Remove Field -
-            </p>
-          )}
-        </div>
+              <div className="grid gap-1">
+                <p>{dict.component.form.collection.fieldType}</p>
+                <RegularSelectInput
+                  options={FIELD_TYPES}
+                  selected={getState(i + 1)}
+                  setSelected={getDispatcher(i + 1)}
+                  labelKey="name"
+                  dict={dict}
+                  dictKey="fieldTypes"
+                />
+              </div>
+            </>
+          ))}
+        {type === "create" && (
+          <div className="flex justify-between">
+            {customFieldCount < MAX_CUSTOM_FIELDS && (
+              <p
+                className="cursor-pointer"
+                onClick={() => setCustomFieldCount((prev) => prev + 1)}
+              >
+                {dict.component.form.collection.addField} +
+              </p>
+            )}
+            {customFieldCount > 0 && (
+              <p
+                className="text-warning-red cursor-pointer"
+                onClick={() => {
+                  setCustomFieldCount((prev) => prev - 1);
+                  unregister(
+                    `fieldName${customFieldCount}` as
+                      | "fieldName1"
+                      | "fieldName2"
+                      | "fieldName3"
+                  );
+                }}
+              >
+                {dict.component.form.collection.removeField} -
+              </p>
+            )}
+          </div>
+        )}
+
+        {serverError && (
+          <p className="text-warning-red">
+            {dict.component.form.collection.error}
+            Error
+          </p>
+        )}
 
         <button
-          className={`button button-success mt-4 ${
-            isSubmitting ? "submitting" : ""
-          }`}
+          className={`button ${
+            type === "create" ? "button-success" : "button-info"
+          } mt-4 ${isSubmitting ? "submitting" : ""}`}
         >
-          {dict.component.button.create}
+          {type === "create"
+            ? dict.component.button.create
+            : dict.component.button.edit}
         </button>
       </form>
     </RegularModal>

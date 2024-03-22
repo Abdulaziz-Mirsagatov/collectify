@@ -1,6 +1,8 @@
 export interface CollectionFormProps {
   dict: Record<string, any>;
+  type: "create" | "edit";
   userId?: string;
+  id?: string;
 }
 
 export interface CustomField {

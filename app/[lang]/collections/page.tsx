@@ -4,17 +4,21 @@ import CollectionsTableContainer from "@/components/Molecules/Container/Table/Co
 import CollectionForm from "@/components/Molecules/Form/Collection";
 import Header from "@/components/Organisms/Header";
 import { Locale } from "@/i18n-config";
+import { Suspense } from "react";
 
 const CollectionsPage = async ({ params }: { params: { lang: Locale } }) => {
-  const session = await auth();
-  const dict = await getDictionary(params.lang);
+  const { lang } = params;
+  const [dict, session] = await Promise.all([getDictionary(lang), auth()]);
 
   return (
-    <section className="grow py-8 px-24 grid content-start gap-8">
-      <Header title="Collections">
-        {session && <CollectionForm dict={dict} />}
+    <section className="grow grid content-start gap-8">
+      <Header title={dict.component.header.collections}>
+        {session && <CollectionForm type="create" dict={dict} />}
       </Header>
-      <CollectionsTableContainer lang={params.lang} />
+
+      <Suspense fallback={<div>Loading...</div>}>
+        <CollectionsTableContainer lang={params.lang} />
+      </Suspense>
     </section>
   );
 };

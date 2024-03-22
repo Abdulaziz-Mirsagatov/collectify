@@ -6,6 +6,7 @@ const RegularTable = <T extends Record<string, any>>({
   columns,
   dict,
   buttons,
+  lang,
 }: RegularTableProps<T>) => {
   const count = columns.length;
 
@@ -19,6 +20,7 @@ const RegularTable = <T extends Record<string, any>>({
           count={count}
           dict={dict}
           button={buttons ? buttons[i] : undefined}
+          lang={lang}
         />
       ))}
     </div>
