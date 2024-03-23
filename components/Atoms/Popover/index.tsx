@@ -37,7 +37,9 @@ const Popover = ({
     setIsModalOpen(false);
   };
 
-  if (outsideClickHandling) useOutsideClick(ref, () => setIsOpen(false));
+  useOutsideClick(ref, () => {
+    if (outsideClickHandling) setIsOpen(false);
+  });
 
   return (
     <div className="relative select-none" ref={ref}>
