@@ -91,13 +91,13 @@
         "addField": "Add field",
         "removeField": "Remove field",
         "create": "Create Collection",
-        "update": "Update Collection"
+        "edit": "Edit Collection"
       },
       "item": {
         "name": "Name",
         "tags": "Tags",
         "create": "Create Item",
-        "update": "Update Item"
+        "edit": "Edit Item"
       }
     },
     "header": {

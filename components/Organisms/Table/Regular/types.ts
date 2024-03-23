@@ -6,4 +6,5 @@ export interface RegularTableProps<T extends Record<string, any>> {
   dict: Record<string, any>;
   buttons?: React.ReactNode[];
   lang: Locale;
+  hasImage?: boolean;
 }

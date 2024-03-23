@@ -3,6 +3,7 @@ export interface ItemFormProps {
   type: "create" | "edit";
   collectionId: string;
   id?: string;
+  trigger?: React.ReactNode;
 }
 
 export interface FIELD_TYPE {

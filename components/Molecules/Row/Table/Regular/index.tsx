@@ -20,7 +20,7 @@ const renderItem = <T extends Record<string, any>>(
     else if (
       typeof row[column] === "string" &&
       row[column].split("").some((l: string) => l === "T") &&
-      new Date(row[column])
+      new Date(row[column]).toString() !== "Invalid Date"
     ) {
       return new Date(row[column]).toLocaleDateString(locale, {
         timeZone: "Asia/Tashkent",
@@ -42,17 +42,20 @@ const RegularTableRow = <T extends Record<string, any>>({
   dict,
   button,
   lang,
+  hasImage = true,
 }: RegularTableRowProps<T>) => {
   return (
     <div className="flex bg-light-gray dark:bg-dark-gray rounded-xl shadow-lg p-4">
-      <div className="flex items-center justify-center-pr-4">
-        <Image
-          src={row.image ?? placeholder}
-          alt="collection image"
-          width={60}
-          className="rounded-full aspect-square"
-        />
-      </div>
+      {hasImage && (
+        <div className="flex items-center justify-center-pr-4">
+          <Image
+            src={row.image ?? placeholder}
+            alt="collection image"
+            width={60}
+            className="rounded-full aspect-square"
+          />
+        </div>
+      )}
       <div
         className="grow grid"
         style={{ gridTemplateColumns: `repeat(${count}, 1fr)` }}
