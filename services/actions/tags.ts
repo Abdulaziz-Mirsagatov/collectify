@@ -5,6 +5,14 @@ import { revalidateTag } from "next/cache";
 
 export type NewTag = Omit<Tag, "id" | "createdAt" | "updatedAt">;
 
+export const getTags = async (query?: string): Promise<Tag[]> => {
+  const res = await fetch(
+    `${process.env.API_URL}/api/tags${query ? `?query=${query}` : ""}`
+  );
+
+  return res.json();
+};
+
 export const addTag = async (tag: NewTag) => {
   const res = await fetch(`${process.env.API_URL}/api/tag`, {
     method: "POST",
