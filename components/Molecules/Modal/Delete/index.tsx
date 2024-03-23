@@ -12,6 +12,11 @@ const DeleteModal = ({
   deleteHandler,
   id,
   redirectPath,
+  trigger = (
+    <button className="button button-warning min-w-32">
+      {dict.component.button.delete}
+    </button>
+  ),
 }: DeleteModalProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
@@ -21,14 +26,7 @@ const DeleteModal = ({
       isModalOpen={isModalOpen}
       setIsModalOpen={setIsModalOpen}
       title={`${dict.component.modal.delete.title} ${dict[type]}`}
-      trigger={
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="button button-warning min-w-32"
-        >
-          {dict.component.button.delete}
-        </button>
-      }
+      trigger={<div onClick={() => setIsModalOpen(true)}>{trigger}</div>}
     >
       <div className="w-[400px] grid gap-8">
         <h1 className="text-center">

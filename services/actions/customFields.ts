@@ -1,6 +1,6 @@
 "use server";
 
-import { CustomField } from "@/types/env";
+import { CustomField, ErrorResponse } from "@/types/env";
 
 export type NewCustomField = Omit<
   CustomField,

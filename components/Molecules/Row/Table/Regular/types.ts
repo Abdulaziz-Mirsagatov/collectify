@@ -7,4 +7,5 @@ export interface RegularTableRowProps<T extends Record<string, any>> {
   dict: Record<string, any>;
   button?: React.ReactNode;
   lang: Locale;
+  hasImage?: boolean;
 }

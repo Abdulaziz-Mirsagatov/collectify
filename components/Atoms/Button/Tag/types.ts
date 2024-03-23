@@ -1,4 +1,4 @@
 export interface TagButtonProps {
   name: string;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLDivElement>) => void;
 }

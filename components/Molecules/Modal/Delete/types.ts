@@ -5,4 +5,5 @@ export interface DeleteModalProps {
   deleteHandler: (id: string) => void | Promise<void>;
   id: string;
   redirectPath?: string;
+  trigger?: React.ReactNode;
 }

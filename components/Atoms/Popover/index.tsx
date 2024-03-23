@@ -11,6 +11,7 @@ const Popover = ({
   children,
   isOpen,
   setIsOpen,
+  outsideClickHandling = true,
 }: PopoverInterface) => {
   const [height, setHeight] = useState(0);
   const [modalAnimation, setModalAnimation] = useState("");
@@ -36,7 +37,9 @@ const Popover = ({
     setIsModalOpen(false);
   };
 
-  useOutsideClick(ref, () => setIsOpen(false));
+  useOutsideClick(ref, () => {
+    if (outsideClickHandling) setIsOpen(false);
+  });
 
   return (
     <div className="relative select-none" ref={ref}>

@@ -28,14 +28,19 @@ const TagsInput = ({ tags, setTags, dict }: TagsInputProps) => {
     setNewTag(e.target.value);
   };
 
-  const removeTag = (index: number) => {
+  const removeTag = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+    e.stopPropagation();
     setTags((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
     <div className="min-w-60 w-full dark:bg-dark bg-light rounded-lg p-2 flex flex-wrap gap-1 select-none border dark:border-light-gray border-dark-gray">
       {tags.map((tag, i) => (
-        <TagButton key={tag} name={tag} onClick={() => removeTag(i)} />
+        <TagButton
+          key={tag + i.toString()}
+          name={tag}
+          onClick={(e) => removeTag(e, i)}
+        />
       ))}
       <input
         type="text"

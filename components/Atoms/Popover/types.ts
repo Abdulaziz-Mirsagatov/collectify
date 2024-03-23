@@ -3,4 +3,5 @@ export interface PopoverInterface {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   trigger: React.ReactNode;
   children: React.ReactNode;
+  outsideClickHandling?: boolean;
 }
