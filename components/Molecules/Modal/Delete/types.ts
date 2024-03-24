@@ -6,4 +6,5 @@ export interface DeleteModalProps {
   id: string;
   redirectPath?: string;
   trigger?: React.ReactNode;
+  imageUrl?: string;
 }
