@@ -1,5 +1,5 @@
 export interface DeleteModalProps {
-  type: "collection" | "item";
+  type: "collection" | "item" | "user";
   name: string;
   dict: Record<string, any>;
   deleteHandler: (id: string) => void | Promise<void>;

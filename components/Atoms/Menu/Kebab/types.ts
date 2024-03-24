@@ -6,5 +6,6 @@ export interface KebabMenuProps {
 
 export interface KebabMenuOption {
   label: string | React.ReactNode;
-  onClick?: () => Promise<void>;
+  onClick?: (...args: any[]) => Promise<void>;
+  args?: any[];
 }

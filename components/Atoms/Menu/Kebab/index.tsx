@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import Popover from "../../Popover";
 import { Icon } from "@iconify/react";
 import { KebabMenuProps } from "./types";
@@ -29,7 +29,7 @@ const KebabMenu = ({
       <div
         className={`absolute ${
           alignment === "right" ? "right-0" : "left-0"
-        } min-w-min shadow-md grid`}
+        } shadow-md grid`}
       >
         {options.map((option, index) =>
           typeof option.label === "string" ? (
@@ -37,14 +37,29 @@ const KebabMenu = ({
               key={index}
               onClick={async (e) => {
                 e.stopPropagation();
-                if (option.onClick) await option.onClick();
+                if (option.onClick) {
+                  if (option.args) await option.onClick(...option.args);
+                  else await option.onClick();
+                  setIsPopoverOpen(false);
+                }
               }}
               className="text-sm dark:bg-dark bg-light text-dark dark:text-light p-2 cursor-pointer hover:bg-light dark:hover:bg-dark-gray hover:text-dark dark:hover:text-light-gray"
             >
               {option.label}
             </p>
           ) : (
-            <Fragment key={index}>{option.label}</Fragment>
+            <div
+              key={index}
+              onClick={async () => {
+                if (option.onClick) {
+                  if (option.args) await option.onClick(...option.args);
+                  else await option.onClick();
+                  setIsPopoverOpen(false);
+                }
+              }}
+            >
+              {option.label}
+            </div>
           )
         )}
       </div>
