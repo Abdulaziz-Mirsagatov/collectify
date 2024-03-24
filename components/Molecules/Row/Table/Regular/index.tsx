@@ -71,6 +71,7 @@ const RegularTableRow = <T extends Record<string, any>>({
           </div>
         ))}
       </div>
+
       {button && (
         <div className="flex items-center justify-center pl-4">{button}</div>
       )}
