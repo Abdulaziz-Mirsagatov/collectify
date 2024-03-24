@@ -177,6 +177,7 @@
   },
   "collection": "Collection",
   "collections": "Collections",
+  "user": "User",
   "item": "Item",
   "items": "Items",
   "serverError": "Something went wrong on the server",

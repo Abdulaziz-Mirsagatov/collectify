@@ -49,10 +49,11 @@ const RegularTableRow = <T extends Record<string, any>>({
       {hasImage && (
         <div className="flex items-center justify-center-pr-4">
           <Image
-            src={row.image ?? placeholder}
+            src={row.image === "" || !row.image ? placeholder : row.image}
             alt="collection image"
             width={60}
-            className="rounded-full aspect-square"
+            height={60}
+            className="rounded-full aspect-square object-cover"
           />
         </div>
       )}

@@ -16,6 +16,7 @@ const RegularModal = ({
   const [modalAnimation, setModalAnimation] = useState("");
   const [overlayAnimation, setOverlayAnimation] = useState("");
   const ref = useRef<HTMLDivElement>(null);
+
   useOutsideClick(ref, () => {
     setIsModalOpen(false);
   });

@@ -15,6 +15,9 @@ import { useForm } from "react-hook-form";
 import { CollectionSchema, CollectionSchemaType } from "@/schemas/collection";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addCustomField } from "@/services/actions/customFields";
+import { SingleImageDropzone } from "@/components/Organisms/SingleImageDropzone";
+import { useEdgeStore } from "@/app/edgestore";
+import { imageUrlToFile } from "@/helpers";
 
 const MAX_CUSTOM_FIELDS = 3;
 const FIELD_TYPES = [
@@ -41,6 +44,8 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
   const [selectedFieldType3, setSelectedFieldType3] = useState<FIELD_TYPE>(
     FIELD_TYPES[0]
   );
+  const [file, setFile] = useState<File | undefined>();
+  const { edgestore } = useEdgeStore();
   const [serverError, setServerError] = useState(false);
 
   useEffect(() => {
@@ -68,6 +73,14 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
             name: collection.name,
             description: collection.description,
           });
+
+          if (collection.image) {
+            imageUrlToFile(collection.image, "collection-image").then(
+              (file) => {
+                if (file) setFile(file);
+              }
+            );
+          }
 
           const selectedCategory = categories.find(
             (category) => category.id === collection.categoryId
@@ -131,6 +144,12 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
         );
 
       await Promise.allSettled(addCustomFieldRequests);
+
+      if (file) {
+        const image = await edgestore.publicFiles.upload({ file });
+        await updateCollection(collection.id, { image: image.url });
+      }
+
       reset();
     } else {
       const res = await updateCollection(id!, {
@@ -141,6 +160,23 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
       if (Object.hasOwn(res, "error")) {
         setServerError(true);
         return;
+      }
+      const collection = res as Collection;
+
+      if (file && collection.image) {
+        const image = await edgestore.publicFiles.upload({
+          file,
+          options: {
+            replaceTargetUrl: collection.image,
+          },
+        });
+        await updateCollection(collection.id, { image: image.url });
+      } else if (collection.image) {
+        await edgestore.publicFiles.delete({ url: collection.image });
+        await updateCollection(collection.id, { image: "" });
+      } else if (file) {
+        const image = await edgestore.publicFiles.upload({ file });
+        await updateCollection(collection.id, { image: image.url });
       }
       setServerError(false);
     }
@@ -184,7 +220,7 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
           className={`button ${
             type === "create" ? "button-success" : "button-info"
           } min-w-32`}
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsModalOpen((prev) => !prev)}
         >
           {dict.component.button[type]}
         </button>
@@ -284,6 +320,17 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
             )}
           </div>
         )}
+
+        <div className="flex justify-center">
+          <SingleImageDropzone
+            width={200}
+            height={100}
+            value={file}
+            onChange={(file) => {
+              setFile(file);
+            }}
+          />
+        </div>
 
         {serverError && (
           <p className="text-warning-red">

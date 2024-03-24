@@ -4,12 +4,16 @@ import { RegisterFormProps } from "./types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterSchema, RegisterSchemaType } from "@/schemas/register";
-import { addUser } from "@/services/actions/users";
+import { addUser, updateUser } from "@/services/actions/users";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { SingleImageDropzone } from "../../SingleImageDropzone";
+import { useEdgeStore } from "@/app/edgestore";
 
 const RegisterForm = ({ dict }: RegisterFormProps) => {
   const [registerError, setRegisterError] = useState<string>("");
+  const [file, setFile] = useState<File | undefined>();
+  const { edgestore } = useEdgeStore();
   const { replace } = useRouter();
 
   const {
@@ -29,6 +33,12 @@ const RegisterForm = ({ dict }: RegisterFormProps) => {
     } else if (res.error === "User with this username already exists") {
       setRegisterError(dict.errors.usernameExists);
     } else {
+      if (file) {
+        const image = await edgestore.publicFiles.upload({ file });
+        // you can run some server action or api here
+        // to add the necessary data to your database
+        await updateUser(res.id, { image: image.url });
+      }
       setRegisterError("");
       reset();
       replace("login");
@@ -117,6 +127,17 @@ const RegisterForm = ({ dict }: RegisterFormProps) => {
             {registerError}
           </p>
         )}
+      </div>
+
+      <div className="w-full grid justify-center">
+        <SingleImageDropzone
+          width={200}
+          height={100}
+          value={file}
+          onChange={(file) => {
+            setFile(file);
+          }}
+        />
       </div>
 
       <button

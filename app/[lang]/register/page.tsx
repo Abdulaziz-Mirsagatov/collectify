@@ -9,8 +9,8 @@ const RegisterPage = async ({ params }: { params: { lang: Locale } }) => {
   const { register } = dict.page;
 
   return (
-    <div className="w-full grow relative">
-      <div className="w-11/12 bg-light-gray dark:bg-dark-gray p-8 rounded-2xl grid gap-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[500px] shadow-md">
+    <div className="w-full grow relative flex justify-center">
+      <div className="my-5 w-11/12 bg-light-gray dark:bg-dark-gray p-8 rounded-2xl grid gap-4 max-w-[500px] shadow-md">
         <h1 className="text-3xl font-bold text-center">{register.title}</h1>
         <RegisterForm dict={register} />
         <p className="text-center text-sm">
