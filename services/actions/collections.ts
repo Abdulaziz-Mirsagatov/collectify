@@ -45,7 +45,7 @@ export const getCollection = async (
   return res.json();
 };
 
-export type UpdatedCollection = Omit<NewCollection, "userId">;
+export type UpdatedCollection = Partial<Omit<NewCollection, "userId">>;
 
 export const updateCollection = async (
   id: string,

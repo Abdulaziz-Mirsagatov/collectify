@@ -28,6 +28,7 @@ const CollectionsTableContainer = async ({
         name: collection.name,
         category: category.name,
         author: user.username ?? user.name,
+        image: collection.image,
       });
       buttons.push(
         <Link

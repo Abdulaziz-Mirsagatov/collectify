@@ -4,6 +4,8 @@ import { getCustomFieldsByCollection } from "@/services/fetch/customFields";
 import { getDictionary } from "@/app/dictionaries";
 import { getUser } from "@/services/fetch/users";
 import { getCategory } from "@/services/fetch/categories";
+import Image from "next/image";
+import placeholder from "@/public/images/placeholder2.jpg";
 
 const CollectionCard = async ({ collectionId, lang }: CollectionCardProps) => {
   const [collection, customFields, dict] = await Promise.all([
@@ -27,17 +29,31 @@ const CollectionCard = async ({ collectionId, lang }: CollectionCardProps) => {
         </h2>
       </div>
 
-      <p>
-        {dict.component.card.customFields}:{" "}
-        {customFields.length
-          ? fields.join(", ")
-          : dict.component.card.collection.none}
-      </p>
+      <div className="w-full flex items-start justify-between">
+        <div className="grid gap-4 content-start">
+          <p>
+            {dict.component.card.customFields}:{" "}
+            {customFields.length
+              ? fields.join(", ")
+              : dict.component.card.collection.none}
+          </p>
+          <p>
+            {dict.component.card.collection.category}:{" "}
+            {dict.categories[category.name as keyof typeof dict.categories]}
+          </p>
+        </div>
 
-      <p>
-        {dict.component.card.collection.category}:{" "}
-        {dict.categories[category.name as keyof typeof dict.categories]}
-      </p>
+        <Image
+          src={
+            collection.image === "" || !collection.image
+              ? placeholder
+              : collection.image
+          }
+          alt={collection.name}
+          width={200}
+          height={200}
+        />
+      </div>
 
       <p className="text-xl">
         {dict.component.card.collection.description}: {collection.description}

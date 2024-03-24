@@ -23,9 +23,10 @@ const Navbar = async ({ lang }: NavbarProps) => {
         {session && (
           <Image
             width={45}
+            height={45}
             src={session.user?.image ?? userPlaceholderImage}
             alt="user placeholder"
-            className="aspect-square rounded-full"
+            className="aspect-square rounded-full object-cover"
           />
         )}
       </ul>

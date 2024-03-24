@@ -9,4 +9,5 @@ export interface CollectionRow {
   name: string;
   category: string;
   author: string;
+  image?: string;
 }
