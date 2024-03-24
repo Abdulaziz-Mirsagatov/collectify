@@ -10,6 +10,9 @@ import ItemForm from "@/components/Molecules/Form/Item";
 import DeleteModal from "@/components/Molecules/Modal/Delete";
 import { deleteItem } from "@/services/actions/items";
 import { auth } from "@/auth";
+import LikeButton from "@/components/Atoms/Button/Like";
+import { getItemLikes } from "@/services/fetch/likes";
+import { addLike, deleteLike } from "@/services/actions/likes";
 
 const ItemsTableContainer = async ({
   lang,
@@ -33,6 +36,9 @@ const ItemsTableContainer = async ({
   );
   const itemsCustomFieldValues = await Promise.all(
     items.map((item) => getItemCustomFieldValuesByItem(item.id))
+  );
+  const itemsLikes = await Promise.all(
+    items.map((item) => getItemLikes(item.id))
   );
 
   items.forEach((item, index) => {
@@ -73,43 +79,53 @@ const ItemsTableContainer = async ({
     itemRows.push(itemRow);
 
     const button: React.ReactNode = (
-      <KebabMenu
-        outsideClickHandling={false}
-        options={[
-          {
-            label: (
-              <ItemForm
-                type="edit"
-                id={item.id}
-                dict={dict}
-                collectionId={collectionId}
-                trigger={
-                  <p className="py-2 px-4 text-center dark:bg-dark bg-light rounded-t-md cursor-pointer hover:bg-light-gray dark:hover:bg-dark-gray transition-colors">
-                    {dict.component.button.edit}
-                  </p>
-                }
-              />
-            ),
-          },
-          {
-            label: (
-              <DeleteModal
-                type="item"
-                name={item.name}
-                dict={dict}
-                deleteHandler={deleteItem}
-                id={item.id}
-                trigger={
-                  <p className="py-2 px-4 text-center dark:bg-dark bg-light text-warning-red rounded-b-md cursor-pointer hover:bg-light-gray dark:hover:bg-dark-gray transition-colors">
-                    {dict.component.button.delete}
-                  </p>
-                }
-              />
-            ),
-          },
-        ]}
-      />
+      <div className="flex items-center gap-4">
+        <LikeButton
+          likes={itemsLikes[index]}
+          itemId={item.id}
+          userId={session?.user?.userId!}
+          onLike={addLike}
+          onUnlike={deleteLike}
+        />
+        <KebabMenu
+          outsideClickHandling={false}
+          options={[
+            {
+              label: (
+                <ItemForm
+                  type="edit"
+                  id={item.id}
+                  dict={dict}
+                  collectionId={collectionId}
+                  trigger={
+                    <p className="py-2 px-4 text-center dark:bg-dark bg-light rounded-t-md cursor-pointer hover:bg-light-gray dark:hover:bg-dark-gray transition-colors">
+                      {dict.component.button.edit}
+                    </p>
+                  }
+                />
+              ),
+            },
+            {
+              label: (
+                <DeleteModal
+                  type="item"
+                  name={item.name}
+                  dict={dict}
+                  deleteHandler={deleteItem}
+                  id={item.id}
+                  trigger={
+                    <p className="py-2 px-4 text-center dark:bg-dark bg-light text-warning-red rounded-b-md cursor-pointer hover:bg-light-gray dark:hover:bg-dark-gray transition-colors">
+                      {dict.component.button.delete}
+                    </p>
+                  }
+                />
+              ),
+            },
+          ]}
+        />
+      </div>
     );
+
     buttons.push(button);
   });
 

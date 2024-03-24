@@ -23,7 +23,7 @@ const CollectionCard = async ({ collectionId, lang }: CollectionCardProps) => {
       <div className="flex items-center justify-between">
         <h1 className="text-3xl">{collection.name}</h1>
         <h2 className="text-2xl">
-          {dict.component.card.collection.author}: {user.username}
+          {dict.component.card.collection.author}: {user.username ?? user.name}
         </h2>
       </div>
 

@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { LikeRequestParams, PutLikeRequest } from "./types";
+import { pusherServer } from "@/pusher/server";
 
 export const dynamic = "force-dynamic";
 
@@ -61,6 +62,16 @@ export async function DELETE(
     where: {
       id: params.likeId,
     },
+  });
+  const likes = await prisma.like.findMany({
+    where: {
+      itemId: existingLike.itemId,
+    },
+  });
+
+  pusherServer.trigger("like-channel", "like-event", {
+    itemId: existingLike.itemId,
+    likes: likes.length,
   });
 
   return NextResponse.json(like);
