@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { PostCommentRequest } from "./types";
+import { pusherServer } from "@/pusher/server";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +13,12 @@ export async function POST(req: PostCommentRequest) {
   const newComment = await prisma.comment.create({
     data: comment,
   });
+
+  pusherServer.trigger(
+    `comments-${newComment.itemId}`,
+    "new-comment",
+    newComment
+  );
 
   return NextResponse.json(newComment, { status: 201 });
 }

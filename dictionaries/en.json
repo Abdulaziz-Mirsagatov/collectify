@@ -84,11 +84,16 @@
       "create": "Create",
       "view": "View",
       "removeAdmin": "Remove admin rights",
-      "grantAdmin": "Grant admin rights"
+      "grantAdmin": "Grant admin rights",
+      "comment": "Comment"
     },
     "input": {
       "tags": {
         "placeholder": "Add tags"
+      },
+      "comment": {
+        "placeholder": "Add comment",
+        "comment": "Comment"
       }
     },
     "form": {
@@ -115,7 +120,8 @@
       "personalPage": "Personal page",
       "users": "Users",
       "collection": "Collection",
-      "items": "Items"
+      "items": "Items",
+      "item": "Item"
     },
     "card": {
       "collection": {
@@ -125,12 +131,34 @@
         "author": "Author",
         "none": "None"
       },
+      "item": {
+        "name": "Name",
+        "tags": "Tags",
+        "fromCollection": "From Collection",
+        "none": "None"
+      },
       "customFields": "Custom fields"
     },
     "modal": {
       "delete": {
         "title": "Delete",
         "message": "Are you sure you want to delete"
+      }
+    },
+    "container": {
+      "collections": {
+        "title": "Collections",
+        "create": "Create Collection"
+      },
+      "items": {
+        "title": "Items",
+        "create": "Create Item"
+      },
+      "users": {
+        "title": "Users"
+      },
+      "comments": {
+        "title": "Comments"
       }
     }
   },
@@ -151,5 +179,31 @@
   "collections": "Collections",
   "item": "Item",
   "items": "Items",
-  "serverError": "Something went wrong on the server"
+  "serverError": "Something went wrong on the server",
+  "global": {
+    "yes": "Yes",
+    "no": "No",
+    "name": "Name",
+    "tags": "Tags",
+    "category": "Category",
+    "description": "Description",
+    "author": "Author",
+    "none": "None",
+    "fromCollection": "From collection",
+    "customFields": "Custom fields",
+    "fieldName": "Field Name",
+    "fieldType": "Field Type",
+    "addField": "Add field",
+    "removeField": "Remove field",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "view": "View",
+    "removeAdmin": "Remove admin rights",
+    "grantAdmin": "Grant admin rights",
+    "deleteTitle": "Delete",
+    "deleteMessage": "Are you sure you want to delete"
+  }
 }
