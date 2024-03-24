@@ -47,6 +47,9 @@ const UsersTableContainer = async ({ lang }: UsersTableContainerProps) => {
                 name={user.username ?? user.email}
                 deleteHandler={deleteUser}
                 id={user.id}
+                imageUrl={
+                  user.image !== "" && user.image ? user.image : undefined
+                }
                 dict={dict}
                 trigger={
                   <button className="w-full py-2 px-4 bg-light dark:bg-dark text-warning-red hover:bg-light-gray dark:hover:bg-dark-gray rounded-b-md">

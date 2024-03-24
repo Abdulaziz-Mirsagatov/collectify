@@ -35,6 +35,11 @@ const CollectionPage = async ({
               dict={dict}
               deleteHandler={deleteCollection}
               id={collectionId}
+              imageUrl={
+                collection.image !== "" && collection.image
+                  ? collection.image
+                  : undefined
+              }
               redirectPath={`/${lang}/collections`}
             />
           </div>
