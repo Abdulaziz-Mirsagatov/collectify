@@ -12,3 +12,11 @@ export const getItemsByCollection = async (
 
   return res.json();
 };
+
+export const getItem = async (itemId: string): Promise<Item> => {
+  const res = await fetch(`${process.env.API_URL}/api/item/${itemId}`, {
+    next: { tags: ["items"] },
+  });
+
+  return res.json();
+};

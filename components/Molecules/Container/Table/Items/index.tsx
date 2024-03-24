@@ -13,6 +13,7 @@ import { auth } from "@/auth";
 import LikeButton from "@/components/Atoms/Button/Like";
 import { getItemLikes } from "@/services/fetch/likes";
 import { addLike, deleteLike } from "@/services/actions/likes";
+import Link from "next/link";
 
 const ItemsTableContainer = async ({
   lang,
@@ -86,43 +87,56 @@ const ItemsTableContainer = async ({
           userId={session?.user?.userId!}
           onLike={addLike}
           onUnlike={deleteLike}
+          isDisabled={!session}
         />
-        <KebabMenu
-          outsideClickHandling={false}
-          options={[
-            {
-              label: (
-                <ItemForm
-                  type="edit"
-                  id={item.id}
-                  dict={dict}
-                  collectionId={collectionId}
-                  trigger={
-                    <p className="py-2 px-4 text-center dark:bg-dark bg-light rounded-t-md cursor-pointer hover:bg-light-gray dark:hover:bg-dark-gray transition-colors">
-                      {dict.component.button.edit}
-                    </p>
-                  }
-                />
-              ),
-            },
-            {
-              label: (
-                <DeleteModal
-                  type="item"
-                  name={item.name}
-                  dict={dict}
-                  deleteHandler={deleteItem}
-                  id={item.id}
-                  trigger={
-                    <p className="py-2 px-4 text-center dark:bg-dark bg-light text-warning-red rounded-b-md cursor-pointer hover:bg-light-gray dark:hover:bg-dark-gray transition-colors">
-                      {dict.component.button.delete}
-                    </p>
-                  }
-                />
-              ),
-            },
-          ]}
-        />
+        {session && (
+          <KebabMenu
+            outsideClickHandling={false}
+            options={[
+              {
+                label: (
+                  <Link
+                    href={`${collectionId}/item/${item.id}`}
+                    className="block py-2 px-4 rounded-t-md text-center dark:bg-dark bg-light cursor-pointer hover:bg-light-gray dark:hover:bg-dark-gray transition-colors"
+                  >
+                    {dict.component.button.view}
+                  </Link>
+                ),
+              },
+              {
+                label: (
+                  <ItemForm
+                    type="edit"
+                    id={item.id}
+                    dict={dict}
+                    collectionId={collectionId}
+                    trigger={
+                      <p className="py-2 px-4 text-center dark:bg-dark bg-light cursor-pointer hover:bg-light-gray dark:hover:bg-dark-gray transition-colors">
+                        {dict.component.button.edit}
+                      </p>
+                    }
+                  />
+                ),
+              },
+              {
+                label: (
+                  <DeleteModal
+                    type="item"
+                    name={item.name}
+                    dict={dict}
+                    deleteHandler={deleteItem}
+                    id={item.id}
+                    trigger={
+                      <p className="py-2 px-4 text-center dark:bg-dark bg-light text-warning-red rounded-b-md cursor-pointer hover:bg-light-gray dark:hover:bg-dark-gray transition-colors">
+                        {dict.component.button.delete}
+                      </p>
+                    }
+                  />
+                ),
+              },
+            ]}
+          />
+        )}
       </div>
     );
 
@@ -135,7 +149,7 @@ const ItemsTableContainer = async ({
       columns={columns}
       dict={dict.component.table.items}
       lang={lang}
-      buttons={session ? buttons : undefined}
+      buttons={buttons}
       hasImage={false}
     />
   );

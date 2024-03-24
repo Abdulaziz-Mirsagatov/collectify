@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { CommentRequestParams, PutCommentRequest } from "./types";
+import { pusherServer } from "@/pusher/server";
 
 export const dynamic = "force-dynamic";
 
@@ -60,6 +61,8 @@ export async function DELETE(
       id: params.commentId,
     },
   });
+
+  pusherServer.trigger(`comments-${comment.itemId}`, "delete-comment", comment);
 
   return NextResponse.json(comment);
 }

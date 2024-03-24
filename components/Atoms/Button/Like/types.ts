@@ -7,4 +7,5 @@ export interface LikeButtonProps {
   userId: string;
   onLike: (like: NewLike) => Promise<Like>;
   onUnlike: (id: string) => Promise<void>;
+  isDisabled?: boolean;
 }

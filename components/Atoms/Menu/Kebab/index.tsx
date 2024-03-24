@@ -43,7 +43,10 @@ const KebabMenu = ({
                   setIsPopoverOpen(false);
                 }
               }}
-              className="text-sm dark:bg-dark bg-light text-dark dark:text-light p-2 cursor-pointer hover:bg-light dark:hover:bg-dark-gray hover:text-dark dark:hover:text-light-gray"
+              className={`text-center dark:bg-dark bg-light text-dark dark:text-light p-2 cursor-pointer hover:bg-light dark:hover:bg-dark-gray hover:text-dark dark:hover:text-light-gray
+              ${index === options.length - 1 ? "rounded-b-md" : ""}
+              ${index === 0 ? "rounded-t-md" : ""}
+              `}
             >
               {option.label}
             </p>

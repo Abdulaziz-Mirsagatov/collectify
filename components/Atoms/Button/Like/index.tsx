@@ -12,10 +12,11 @@ const LikeButton = ({
   userId,
   onLike,
   onUnlike,
+  isDisabled = false,
 }: LikeButtonProps) => {
   const [userLike, setUserLike] = useState<Like | null>(null);
   const [numLikes, setNumLikes] = useState<number>(likes.length);
-  const [disabled, setDisabled] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState<boolean>(isDisabled);
 
   useEffect(() => {
     setUserLike(
