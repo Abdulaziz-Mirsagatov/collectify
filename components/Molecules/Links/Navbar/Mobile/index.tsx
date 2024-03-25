@@ -48,6 +48,7 @@ const MobileNavLinks = ({
           className="text-xl button button-info w-24"
           onClick={async () => {
             await logout();
+            setIsMenuOpen(false);
             router.push(`/${lang}/login`);
           }}
         >
@@ -59,6 +60,7 @@ const MobileNavLinks = ({
           <Link
             href={`/${lang}/login`}
             className="button button-info block w-24"
+            onClick={() => setIsMenuOpen(false)}
           >
             {dict.login}
           </Link>
