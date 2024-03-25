@@ -61,7 +61,7 @@ const CollectionCard = async ({ collectionId, lang }: CollectionCardProps) => {
           {dict.component.card.collection.description}
         </h2>
         <p>
-          <Markdown>{collection.description}</Markdown>
+          <Markdown className={"markdown"}>{collection.description}</Markdown>
         </p>
       </div>
     </div>

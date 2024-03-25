@@ -271,7 +271,7 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
               Preview
             </span>
             {markdownPreview && watchDescription && (
-              <Markdown>{watchDescription}</Markdown>
+              <Markdown className={"markdown"}>{watchDescription}</Markdown>
             )}
           </div>
         </div>
