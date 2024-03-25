@@ -5,6 +5,7 @@ import { useState } from "react";
 import { DeleteModalProps } from "./types";
 import { useRouter } from "next/navigation";
 import { useEdgeStore } from "@/app/edgestore";
+import { signOut } from "@/auth";
 
 const DeleteModal = ({
   type,
@@ -14,6 +15,7 @@ const DeleteModal = ({
   id,
   redirectPath,
   imageUrl,
+  userId,
   trigger = (
     <button className="button button-warning min-w-32">
       {dict.component.button.delete}
@@ -49,6 +51,7 @@ const DeleteModal = ({
               await deleteHandler(id);
               if (imageUrl)
                 await edgestore.publicFiles.delete({ url: imageUrl });
+              if (id === userId) await signOut();
               if (redirectPath) router.push(redirectPath);
               setIsModalOpen(false);
             }}

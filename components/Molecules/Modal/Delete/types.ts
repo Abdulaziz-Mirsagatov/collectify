@@ -1,5 +1,5 @@
 export interface DeleteModalProps {
-  type: "collection" | "item" | "user";
+  type: "collection" | "item" | "user" | "account" | "comment";
   name: string;
   dict: Record<string, any>;
   deleteHandler: (id: string) => void | Promise<void>;
@@ -7,4 +7,5 @@ export interface DeleteModalProps {
   redirectPath?: string;
   trigger?: React.ReactNode;
   imageUrl?: string;
+  userId?: string;
 }

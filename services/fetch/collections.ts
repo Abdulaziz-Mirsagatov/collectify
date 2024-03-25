@@ -8,6 +8,19 @@ export const getCollections = async (): Promise<Collection[]> => {
   return res.json();
 };
 
+export const getCollectionsByUser = async (
+  userId: string
+): Promise<Collection[]> => {
+  const res = await fetch(
+    `${process.env.API_URL}/api/collections/byUser/${userId}`,
+    {
+      next: { tags: ["collections"] },
+    }
+  );
+
+  return res.json();
+};
+
 export const getCollection = async (
   collectionId: string
 ): Promise<Collection> => {
