@@ -178,6 +178,9 @@
       "comments": {
         "title": "Comments"
       }
+    },
+    "search": {
+      "placeholder": "Search"
     }
   },
   "categories": {

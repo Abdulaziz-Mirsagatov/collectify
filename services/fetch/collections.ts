@@ -21,10 +21,20 @@ export const getCollections = async (
 };
 
 export const getCollectionsByUser = async (
-  userId: string
+  userId: string,
+  search?: string,
+  limit?: string,
+  sort?: string
 ): Promise<Collection[]> => {
+  const params = new URLSearchParams();
+  if (search) params.append("search", search);
+  if (limit) params.append("limit", limit);
+  if (sort) params.append("sort", sort);
+
   const res = await fetch(
-    `${process.env.API_URL}/api/collections/byUser/${userId}`,
+    `${
+      process.env.API_URL
+    }/api/collections/byUser/${userId}?${params.toString()}`,
     {
       next: { tags: ["collections"] },
     }

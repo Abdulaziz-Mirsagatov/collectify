@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
     where: {
       name: {
         contains: search,
+        mode: "insensitive",
       },
     },
     take: limit ? parseInt(limit) : undefined,

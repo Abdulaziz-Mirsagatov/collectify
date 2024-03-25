@@ -8,9 +8,14 @@ import { deleteUser, updateUser } from "@/services/actions/users";
 import { auth } from "@/auth";
 import { USER_ROLES } from "@/constants/users";
 
-const UsersTableContainer = async ({ lang }: UsersTableContainerProps) => {
+const UsersTableContainer = async ({
+  lang,
+  search,
+  limit,
+  sort,
+}: UsersTableContainerProps) => {
   const [users, dict] = await Promise.all([
-    getUsers(),
+    getUsers(search, limit, sort),
     getDictionary(lang),
     auth(),
   ]);
