@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { addCustomField } from "@/services/actions/customFields";
 import { SingleImageDropzone } from "@/components/Organisms/SingleImageDropzone";
 import { useEdgeStore } from "@/app/edgestore";
-import { imageUrlToFile } from "@/helpers";
+import { imageUrlToFile } from "@/helpers/imageUrlToFile";
 
 const MAX_CUSTOM_FIELDS = 3;
 const FIELD_TYPES = [

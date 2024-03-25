@@ -14,6 +14,9 @@ import LikeButton from "@/components/Atoms/Button/Like";
 import { getItemLikes } from "@/services/fetch/likes";
 import { addLike, deleteLike } from "@/services/actions/likes";
 import Link from "next/link";
+import { USER_ROLES } from "@/constants/users";
+import { getCollection } from "@/services/fetch/collections";
+import { hasEditAccess } from "@/helpers/hasEditAccess";
 
 const ItemsTableContainer = async ({
   lang,
@@ -40,6 +43,9 @@ const ItemsTableContainer = async ({
   );
   const itemsLikes = await Promise.all(
     items.map((item) => getItemLikes(item.id))
+  );
+  const itemsCollections = await Promise.all(
+    items.map((item) => getCollection(item.collectionId))
   );
 
   items.forEach((item, index) => {
@@ -79,6 +85,7 @@ const ItemsTableContainer = async ({
 
     itemRows.push(itemRow);
 
+    const hasAccess = hasEditAccess(session, itemsCollections[index]);
     const button: React.ReactNode = (
       <div className="flex items-center gap-4">
         <LikeButton
@@ -89,22 +96,24 @@ const ItemsTableContainer = async ({
           onUnlike={deleteLike}
           isDisabled={!session}
         />
-        {session && (
+        {
           <KebabMenu
-            outsideClickHandling={false}
+            outsideClickHandling={!hasAccess}
             options={[
               {
                 label: (
                   <Link
                     href={`${collectionId}/item/${item.id}`}
-                    className="block py-2 px-4 rounded-t-md text-center dark:bg-dark bg-light cursor-pointer hover:bg-light-gray dark:hover:bg-dark-gray transition-colors"
+                    className={`block py-2 px-4 rounded-t-md text-center dark:bg-dark bg-light cursor-pointer hover:bg-light-gray dark:hover:bg-dark-gray transition-colors ${
+                      !hasAccess ? "rounded-b-md" : ""
+                    }`}
                   >
                     {dict.component.button.view}
                   </Link>
                 ),
               },
               {
-                label: (
+                label: hasAccess && (
                   <ItemForm
                     type="edit"
                     id={item.id}
@@ -119,7 +128,7 @@ const ItemsTableContainer = async ({
                 ),
               },
               {
-                label: (
+                label: hasAccess && (
                   <DeleteModal
                     type="item"
                     name={item.name}
@@ -136,7 +145,7 @@ const ItemsTableContainer = async ({
               },
             ]}
           />
-        )}
+        }
       </div>
     );
 

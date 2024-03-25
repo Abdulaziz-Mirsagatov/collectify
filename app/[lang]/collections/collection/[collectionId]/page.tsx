@@ -6,6 +6,7 @@ import ItemForm from "@/components/Molecules/Form/Item";
 import DeleteModal from "@/components/Molecules/Modal/Delete";
 import CollectionCard from "@/components/Organisms/Card/Collection";
 import Header from "@/components/Organisms/Header";
+import { hasEditAccess } from "@/helpers/hasEditAccess";
 import { Locale } from "@/i18n-config";
 import {
   deleteCollection,
@@ -23,10 +24,12 @@ const CollectionPage = async ({
   const [dict, session] = await Promise.all([getDictionary(lang), auth()]);
   const collection = (await getCollection(collectionId)) as Collection;
 
+  const hasAccess = hasEditAccess(session, collection);
+
   return (
     <section className="grow grid content-start gap-12">
       <Header title={dict.component.header.collection}>
-        {session && (
+        {hasAccess && (
           <div className="flex gap-2">
             <CollectionForm type="edit" id={collectionId} dict={dict} />
             <DeleteModal
