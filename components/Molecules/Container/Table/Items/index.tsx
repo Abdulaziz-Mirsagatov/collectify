@@ -14,16 +14,18 @@ import LikeButton from "@/components/Atoms/Button/Like";
 import { getItemLikes } from "@/services/fetch/likes";
 import { addLike, deleteLike } from "@/services/actions/likes";
 import Link from "next/link";
-import { USER_ROLES } from "@/constants/users";
 import { getCollection } from "@/services/fetch/collections";
 import { hasEditAccess } from "@/helpers/hasEditAccess";
 
 const ItemsTableContainer = async ({
   lang,
   collectionId,
+  search,
+  limit,
+  sort,
 }: ItemsTableContainerProps) => {
   const [items, dict, customFields, session] = await Promise.all([
-    getItemsByCollection(collectionId),
+    getItemsByCollection(collectionId, search, limit, sort),
     getDictionary(lang),
     getCustomFieldsByCollection(collectionId),
     auth(),

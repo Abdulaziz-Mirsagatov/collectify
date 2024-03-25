@@ -1,12 +1,25 @@
 import { PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
 const prisma = new PrismaClient();
 
-export async function GET() {
-  const users = await prisma.user.findMany();
+export async function GET(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams;
+  const search = searchParams.get("search") ?? "";
+  const limit = searchParams.get("limit") ?? null;
+  const sort = searchParams.get("sort") ?? null;
+
+  const users = await prisma.user.findMany({
+    where: {
+      name: {
+        contains: search,
+        mode: "insensitive",
+      },
+    },
+    take: limit ? parseInt(limit) : undefined,
+  });
 
   return NextResponse.json(users);
 }

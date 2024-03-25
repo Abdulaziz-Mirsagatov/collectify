@@ -2,18 +2,19 @@ import { getCollectionsByUser } from "@/services/fetch/collections";
 import { UserCollectionRow, UserCollectionsTableContainerProps } from "./types";
 import { getDictionary } from "@/app/dictionaries";
 import RegularTable from "@/components/Organisms/Table/Regular";
-import { getUser } from "@/services/fetch/users";
 import { getCategory } from "@/services/fetch/categories";
 import Link from "next/link";
 
 const UserCollectionsTableContainer = async ({
   lang,
   userId,
+  search,
+  limit,
+  sort,
 }: UserCollectionsTableContainerProps) => {
-  const [collections, dict, user] = await Promise.all([
-    getCollectionsByUser(userId),
+  const [collections, dict] = await Promise.all([
+    getCollectionsByUser(userId, search, limit, sort),
     getDictionary(lang),
-    getUser(userId),
   ]);
 
   const collectionsCategories = await Promise.all(

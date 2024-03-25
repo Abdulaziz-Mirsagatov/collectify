@@ -14,7 +14,6 @@ const CollectionsTableContainer = async ({
 }: CollectionsTableContainerProps) => {
   const collectionRows: CollectionRow[] = [];
   const buttons: React.ReactNode[] = [];
-
   const [collections, dict] = await Promise.all([
     getCollections(search, limit, sort),
     getDictionary(lang),

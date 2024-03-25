@@ -200,6 +200,9 @@
       "comments": {
         "title": "Комментарии"
       }
+    },
+    "search": {
+      "placeholder": "Поиск"
     }
   },
   "categories": {

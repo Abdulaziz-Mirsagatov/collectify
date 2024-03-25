@@ -2,6 +2,7 @@ import { getDictionary } from "@/app/dictionaries";
 import { auth } from "@/auth";
 import UserCollectionsTableContainer from "@/components/Molecules/Container/Table/UserCollections";
 import CollectionForm from "@/components/Molecules/Form/Collection";
+import SearchInput from "@/components/Molecules/Input/Search";
 import UserCard from "@/components/Organisms/Card/User";
 import Header from "@/components/Organisms/Header";
 import { USER_ROLES } from "@/constants/users";
@@ -10,10 +11,13 @@ import { Suspense } from "react";
 
 const PersonalPage = async ({
   params,
+  searchParams,
 }: {
   params: { lang: Locale; userId: string };
+  searchParams: { search: string };
 }) => {
   const { lang, userId } = params;
+  const { search } = searchParams;
   const [dict, session] = await Promise.all([getDictionary(lang), auth()]);
 
   // if not logged in or user is not the same as the one in the URL and is not an admin
@@ -30,10 +34,15 @@ const PersonalPage = async ({
       </Suspense>
 
       <Header title={dict.component.header.myCollections}>
+        <SearchInput dict={dict} />
         <CollectionForm type="create" dict={dict} />
       </Header>
       <Suspense fallback={<div>Loading...</div>}>
-        <UserCollectionsTableContainer lang={lang} userId={userId} />
+        <UserCollectionsTableContainer
+          lang={lang}
+          userId={userId}
+          search={search}
+        />
       </Suspense>
     </section>
   );

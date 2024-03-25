@@ -1,10 +1,20 @@
 import { Item } from "@/types/env";
 
 export const getItemsByCollection = async (
-  collectionId: string
+  collectionId: string,
+  search?: string,
+  limit?: string,
+  sort?: string
 ): Promise<Item[]> => {
+  const params = new URLSearchParams();
+  if (search) params.append("search", search);
+  if (limit) params.append("limit", limit);
+  if (sort) params.append("sort", sort);
+
   const res = await fetch(
-    `${process.env.API_URL}/api/items/byCollection/${collectionId}`,
+    `${
+      process.env.API_URL
+    }/api/items/byCollection/${collectionId}?${params.toString()}`,
     {
       next: { tags: ["items"] },
     }
