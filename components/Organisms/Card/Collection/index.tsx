@@ -6,6 +6,7 @@ import { getUser } from "@/services/fetch/users";
 import { getCategory } from "@/services/fetch/categories";
 import Image from "next/image";
 import placeholder from "@/public/images/placeholder2.jpg";
+import Markdown from "react-markdown";
 
 const CollectionCard = async ({ collectionId, lang }: CollectionCardProps) => {
   const [collection, customFields, dict] = await Promise.all([
@@ -55,9 +56,14 @@ const CollectionCard = async ({ collectionId, lang }: CollectionCardProps) => {
         />
       </div>
 
-      <p className="text-xl">
-        {dict.component.card.collection.description}: {collection.description}
-      </p>
+      <div>
+        <h2 className="text-2xl">
+          {dict.component.card.collection.description}
+        </h2>
+        <p>
+          <Markdown>{collection.description}</Markdown>
+        </p>
+      </div>
     </div>
   );
 };
