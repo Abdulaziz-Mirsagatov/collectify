@@ -47,13 +47,15 @@ const UserCollectionsTableContainer = async ({
   const columns = ["name", "category", "createdAt"];
 
   return (
-    <RegularTable
-      rows={collectionRows}
-      columns={columns}
-      dict={dict}
-      lang={lang}
-      buttons={buttons}
-    />
+    <div className="overflow-x-auto">
+      <RegularTable
+        rows={collectionRows}
+        columns={columns}
+        dict={dict}
+        lang={lang}
+        buttons={buttons}
+      />
+    </div>
   );
 };
 

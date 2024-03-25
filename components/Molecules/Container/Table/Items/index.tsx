@@ -155,14 +155,16 @@ const ItemsTableContainer = async ({
   });
 
   return (
-    <RegularTable
-      rows={itemRows}
-      columns={columns}
-      dict={dict.component.table.items}
-      lang={lang}
-      buttons={buttons}
-      hasImage={false}
-    />
+    <div className="overflow-x-auto">
+      <RegularTable
+        rows={itemRows}
+        columns={columns}
+        dict={dict.component.table.items}
+        lang={lang}
+        buttons={buttons}
+        hasImage={false}
+      />
+    </div>
   );
 };
 
