@@ -53,7 +53,7 @@ const CollectionPage = async ({
       </Suspense>
 
       <Header title={dict.component.header.items}>
-        {session && (
+        {hasAccess && (
           <ItemForm type="create" dict={dict} collectionId={collectionId} />
         )}
       </Header>

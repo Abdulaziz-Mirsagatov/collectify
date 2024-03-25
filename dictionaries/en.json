@@ -113,6 +113,12 @@
         "tags": "Tags",
         "create": "Create Item",
         "edit": "Edit Item"
+      },
+      "user": {
+        "name": "Name",
+        "username": "Username",
+        "create": "Create User",
+        "edit": "Edit User"
       }
     },
     "header": {
@@ -121,7 +127,8 @@
       "users": "Users",
       "collection": "Collection",
       "items": "Items",
-      "item": "Item"
+      "item": "Item",
+      "myCollections": "My Collections"
     },
     "card": {
       "collection": {
@@ -136,6 +143,14 @@
         "tags": "Tags",
         "fromCollection": "From Collection",
         "none": "None"
+      },
+      "user": {
+        "name": "Name",
+        "email": "Email",
+        "username": "Username",
+        "role": "Role",
+        "admin": "Admin",
+        "user": "User"
       },
       "customFields": "Custom fields"
     },
@@ -178,9 +193,15 @@
   "collection": "Collection",
   "collections": "Collections",
   "user": "User",
+  "account": "Account",
+  "comment": "Comment",
   "item": "Item",
   "items": "Items",
   "serverError": "Something went wrong on the server",
+  "role": {
+    "admin": "Admin",
+    "user": "User"
+  },
   "global": {
     "yes": "Yes",
     "no": "No",

@@ -90,7 +90,7 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
         });
       }
     });
-  }, []);
+  }, [id, isModalOpen]);
 
   const {
     reset,
@@ -343,6 +343,7 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
           className={`button ${
             type === "create" ? "button-success" : "button-info"
           } mt-4 ${isSubmitting ? "submitting" : ""}`}
+          disabled={isSubmitting}
         >
           {type === "create"
             ? dict.component.button.create

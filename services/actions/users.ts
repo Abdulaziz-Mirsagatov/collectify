@@ -7,6 +7,12 @@ import { revalidateTag } from "next/cache";
 
 export type NewUser = Omit<User, "id" | "role" | "createdAt" | "updatedAt">;
 
+export const getUser = async (id: string): Promise<User> => {
+  const res = await fetch(`${process.env.API_URL}/api/user/${id}`);
+
+  return res.json();
+};
+
 export const addUser = async (user: NewUser) => {
   const res = await fetch(`${process.env.API_URL}/api/user`, {
     method: "POST",

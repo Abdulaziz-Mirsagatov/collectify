@@ -27,7 +27,7 @@ const getNavLinks = (
   if (session && session.user?.userId) {
     const personalPageLink: NavLink = {
       label: dict.personalPage,
-      href: `/${lang}/collections/${session.user.userId}`,
+      href: `/${lang}/personal/${session.user.userId}`,
     };
     navLinks.push(personalPageLink);
     if (session.user.role === USER_ROLES.ADMIN) {
