@@ -85,7 +85,8 @@
       "view": "View",
       "removeAdmin": "Remove admin rights",
       "grantAdmin": "Grant admin rights",
-      "comment": "Comment"
+      "comment": "Comment",
+      "explore": "Explore"
     },
     "input": {
       "tags": {
@@ -128,7 +129,9 @@
       "collection": "Collection",
       "items": "Items",
       "item": "Item",
-      "myCollections": "My Collections"
+      "myCollections": "My Collections",
+      "welcome": "Welcome to Collectify! - the best place to store your favorite collections!",
+      "largestCollections": "Largest Collections"
     },
     "card": {
       "collection": {
