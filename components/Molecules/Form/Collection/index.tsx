@@ -18,6 +18,7 @@ import { addCustomField } from "@/services/actions/customFields";
 import { SingleImageDropzone } from "@/components/Organisms/SingleImageDropzone";
 import { useEdgeStore } from "@/app/edgestore";
 import { imageUrlToFile } from "@/helpers/imageUrlToFile";
+import Markdown from "react-markdown";
 
 const MAX_CUSTOM_FIELDS = 3;
 const FIELD_TYPES = [
@@ -47,6 +48,7 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
   const [file, setFile] = useState<File | undefined>();
   const { edgestore } = useEdgeStore();
   const [serverError, setServerError] = useState(false);
+  const [markdownPreview, setMarkdownPreview] = useState(false);
 
   useEffect(() => {
     getCategories().then((res) => {
@@ -97,10 +99,12 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
     register,
     unregister,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<CollectionSchemaType>({
     resolver: zodResolver(CollectionSchema),
   });
+  const watchDescription = watch("description");
 
   const onSubmit = async (data: CollectionSchemaType) => {
     if (type === "create") {
@@ -249,11 +253,28 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
             />
           </div>
         )}
-        <textarea
-          placeholder={dict.component.form.collection.description}
-          className="input"
-          {...register("description")}
-        />
+        <div>
+          <textarea
+            placeholder={dict.component.form.collection.description}
+            className="input"
+            {...register("description")}
+          />
+          <div
+            className={`${
+              markdownPreview ? "bg-light dark:bg-dark shadow-md" : ""
+            } w-full rounded-md p-2`}
+          >
+            <span
+              className="dark:text-info-blue/70 cursor-pointer"
+              onClick={() => setMarkdownPreview((prev) => !prev)}
+            >
+              Preview
+            </span>
+            {markdownPreview && watchDescription && (
+              <Markdown>{watchDescription}</Markdown>
+            )}
+          </div>
+        </div>
 
         {type === "create" &&
           Array.from({ length: customFieldCount }).map((_, i) => (
