@@ -29,7 +29,7 @@ const SearchInput = ({ dict }: SearchInputProps) => {
   }, 500);
 
   return (
-    <div className="w-96 flex items-center gap-2 rounded-lg shadow-md bg-light-gray dark:bg-dark-gray p-2">
+    <div className="w-full sm:w-96 flex items-center gap-2 rounded-lg shadow-md bg-light-gray dark:bg-dark-gray p-2">
       <Icon icon="tabler:search" className="text-xl" />
       <input
         type="text"

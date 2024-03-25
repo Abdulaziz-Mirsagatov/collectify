@@ -360,7 +360,7 @@ const ItemForm = ({
       }
     >
       <form
-        className="w-[500px] p-2 grid gap-4 max-h-96 overflow-y-auto"
+        className="w-full md:w-[500px] p-2 grid gap-4 max-h-96 overflow-y-auto"
         onSubmit={handleSubmit(onSubmit)}
       >
         <input

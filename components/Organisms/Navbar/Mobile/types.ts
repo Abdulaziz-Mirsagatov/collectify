@@ -1,13 +1,8 @@
 import { Locale } from "@/i18n-config";
 import { Session } from "next-auth";
 
-export interface NavLinksProps {
-  session: Session | null;
+export interface MobileNavbarProps {
   dict: Record<string, any>;
   lang: Locale;
-}
-
-export interface NavLink {
-  label: string;
-  href: string;
+  session: Session | null;
 }

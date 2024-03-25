@@ -47,7 +47,7 @@ const RegularModal = ({
       {isOpen && (
         <>
           <div
-            className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-light-gray dark:bg-dark-gray min-w-48 min-h-48 rounded-xl z-30 shadow-lg p-4 ${modalAnimation}`}
+            className={`fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-light-gray dark:bg-dark-gray min-w-48 min-h-48 w-4/5 md:w-auto rounded-xl z-30 shadow-lg p-4 ${modalAnimation}`}
             ref={ref}
           >
             <div className="flex justify-between items-center mb-4">

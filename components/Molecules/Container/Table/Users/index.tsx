@@ -72,13 +72,15 @@ const UsersTableContainer = async ({
   });
 
   return (
-    <RegularTable
-      rows={users}
-      columns={columns}
-      lang={lang}
-      dict={dict.component.table.users}
-      buttons={buttons}
-    />
+    <div className="overflow-x-auto">
+      <RegularTable
+        rows={users}
+        columns={columns}
+        lang={lang}
+        dict={dict.component.table.users}
+        buttons={buttons}
+      />
+    </div>
   );
 };
 

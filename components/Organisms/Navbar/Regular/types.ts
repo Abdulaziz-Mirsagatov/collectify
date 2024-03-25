@@ -1,6 +1,6 @@
 import { Locale } from "@/i18n-config";
 
-export interface NavbarProps {
+export interface RegularNavbarProps {
   lang: Locale;
   image?: string;
 }

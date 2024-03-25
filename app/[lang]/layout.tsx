@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "../globals.css";
 import Providers from "../providers";
-import Navbar from "@/components/Organisms/Navbar";
+import RegularNavbar from "@/components/Organisms/Navbar/Regular";
 import { Locale, i18n } from "@/i18n-config";
 import icon from "@/public/images/placeholder2.jpg";
 
@@ -40,8 +40,10 @@ export default function RootLayout({
         <link rel="icon" href="/assets/placeholder.jpg" sizes="any" />
         <Providers>
           <div className="min-h-screen flex flex-col">
-            <Navbar lang={lang} />
-            <div className="grow flex flex-col px-24 py-8">{children}</div>
+            <RegularNavbar lang={lang} />
+            <div className="grow flex flex-col px-10 py-4 lg:px-24 lg:py-8">
+              {children}
+            </div>
           </div>
         </Providers>
       </body>

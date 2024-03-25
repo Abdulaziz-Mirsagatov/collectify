@@ -17,7 +17,7 @@ const UserCard = async ({ userId, lang }: UserCardProps) => {
   return (
     <div className="grid gap-8 max-w-[850px]">
       <Header title={dict.component.header.personalPage}>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <UserForm userId={userId} dict={dict} lang={lang} />
           <DeleteModal
             type="account"
@@ -30,8 +30,8 @@ const UserCard = async ({ userId, lang }: UserCardProps) => {
           />
         </div>
       </Header>
-      <div className="grid gap-8">
-        <div className="flex flew-wrap items-center justify-between gap-4">
+      <div className="grid gap-4 lg:gap-8">
+        <div className="flex sm:flex-row flex-col flew-wrap sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold">
               {dict.component.card.user.name}
@@ -46,7 +46,8 @@ const UserCard = async ({ userId, lang }: UserCardProps) => {
             className="rounded-full aspect-square object-cover"
           />
         </div>
-        <div className="flex flex-wrap items-center gap-16">
+
+        <div className="flex flex-wrap items-center gap-y-8 gap-x-16 lg:gap-y-16">
           <div>
             <h2 className="text-2xl font-bold">
               {dict.component.card.user.username}

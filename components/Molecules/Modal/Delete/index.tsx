@@ -33,7 +33,7 @@ const DeleteModal = ({
       title={`${dict.component.modal.delete.title} ${dict[type]}`}
       trigger={<div onClick={() => setIsModalOpen(true)}>{trigger}</div>}
     >
-      <div className="w-[400px] grid gap-8">
+      <div className="w-full md:w-[400px] grid gap-8">
         <h1 className="text-center">
           {dict.component.modal.delete.message}{" "}
           <span className="font-bold">{name}?</span>

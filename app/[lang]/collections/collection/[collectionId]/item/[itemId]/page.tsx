@@ -29,28 +29,13 @@ const ItemPage = async ({
 
   return (
     <section className="grow grid content-start gap-12">
-      <Header title={dict.component.header.item}>
-        {hasAccess && (
-          <div className="flex items-center gap-2">
-            <ItemForm
-              type="edit"
-              dict={dict}
-              collectionId={collectionId}
-              id={itemId}
-            />
-            <DeleteModal
-              type="item"
-              name={item.name}
-              dict={dict}
-              deleteHandler={deleteItem}
-              id={itemId}
-              redirectPath={`/${lang}/collections/collection/${collectionId}`}
-            />
-          </div>
-        )}
-      </Header>
       <Suspense fallback={<div>Loading...</div>}>
-        <ItemCard lang={lang} itemId={itemId} collectionId={collectionId} />
+        <ItemCard
+          lang={lang}
+          itemId={itemId}
+          collectionId={collectionId}
+          hasAccess={hasAccess}
+        />
       </Suspense>
 
       <Suspense fallback={<div>Loading...</div>}>

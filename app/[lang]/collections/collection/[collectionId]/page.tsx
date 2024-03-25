@@ -32,28 +32,12 @@ const CollectionPage = async ({
 
   return (
     <section className="grow grid content-start gap-12">
-      <Header title={dict.component.header.collection}>
-        {hasAccess && (
-          <div className="flex gap-2">
-            <CollectionForm type="edit" id={collectionId} dict={dict} />
-            <DeleteModal
-              type="collection"
-              name={collection.name}
-              dict={dict}
-              deleteHandler={deleteCollection}
-              id={collectionId}
-              imageUrl={
-                collection.image !== "" && collection.image
-                  ? collection.image
-                  : undefined
-              }
-              redirectPath={`/${lang}/collections`}
-            />
-          </div>
-        )}
-      </Header>
       <Suspense fallback={<div>Loading...</div>}>
-        <CollectionCard collectionId={collectionId} lang={lang} />
+        <CollectionCard
+          collectionId={collectionId}
+          lang={lang}
+          hasAccess={hasAccess}
+        />
       </Suspense>
 
       <Header title={dict.component.header.items}>
