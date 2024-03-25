@@ -8,12 +8,15 @@ import { getCategory } from "@/services/fetch/categories";
 
 const CollectionsTableContainer = async ({
   lang,
+  search,
+  limit,
+  sort,
 }: CollectionsTableContainerProps) => {
   const collectionRows: CollectionRow[] = [];
   const buttons: React.ReactNode[] = [];
 
   const [collections, dict] = await Promise.all([
-    getCollections(),
+    getCollections(search, limit, sort),
     getDictionary(lang),
   ]);
   await Promise.all(
