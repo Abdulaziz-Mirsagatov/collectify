@@ -24,7 +24,10 @@ const MobileNavbar = ({ dict, lang, session }: MobileNavbarProps) => {
 
   return (
     <>
-      <HamburgerButton onClick={() => setIsOpen((prev) => !prev)} />
+      <HamburgerButton
+        onClick={() => setIsOpen((prev) => !prev)}
+        isMenuOpen={isMenuOpen}
+      />
       {isMenuOpen && (
         <div
           className={`grid justify-center content-center lg:hidden fixed left-0 top-0 bottom-0 right-0 bg-white/80 dark:bg-black/80 inset-0 backdrop-filter backdrop-blur-lg z-40 ${menuAnimation}`}

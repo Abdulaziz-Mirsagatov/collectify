@@ -3,11 +3,13 @@
 import { Icon } from "@iconify/react";
 import { HamburgerButtonProps } from "./types";
 
-const HamburgerButton = ({ onClick }: HamburgerButtonProps) => {
+const HamburgerButton = ({ onClick, isMenuOpen }: HamburgerButtonProps) => {
   return (
     <Icon
       icon="solar:hamburger-menu-broken"
-      className="text-3xl cursor-pointer z-50 fixed top-4 right-4 lg:hidden"
+      className={`text-3xl cursor-pointer z-50 top-4 right-4 lg:hidden ${
+        isMenuOpen ? "fixed" : "absolute"
+      }`}
       onClick={onClick}
     />
   );
