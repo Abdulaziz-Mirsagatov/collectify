@@ -10,7 +10,7 @@ const RegisterPage = async ({ params }: { params: { lang: Locale } }) => {
 
   return (
     <div className="w-full grow relative flex justify-center">
-      <div className="my-5 w-11/12 bg-light-gray dark:bg-dark-gray p-8 rounded-2xl grid gap-4 max-w-[500px] shadow-md">
+      <div className="my-5 w-full bg-light-gray dark:bg-dark-gray p-8 rounded-2xl grid gap-4 max-w-[500px] shadow-md">
         <h1 className="text-3xl font-bold text-center">{register.title}</h1>
         <RegisterForm dict={register} />
         <p className="text-center text-sm">

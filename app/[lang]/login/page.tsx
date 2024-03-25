@@ -10,7 +10,7 @@ const LoginPage = async ({ params }: { params: { lang: Locale } }) => {
 
   return (
     <div className="w-full grow relative">
-      <div className="w-11/12 bg-light-gray dark:bg-dark-gray p-8 rounded-2xl grid gap-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[500px]">
+      <div className="w-full bg-light-gray dark:bg-dark-gray p-8 rounded-2xl grid gap-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[500px]">
         <h1 className="text-3xl font-bold text-center">{login.title}</h1>
         <LoginForm dict={login} />
         <p className="text-center text-sm">
