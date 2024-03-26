@@ -4,6 +4,7 @@ import { getDictionary } from "../dictionaries";
 import Link from "next/link";
 import { Suspense } from "react";
 import CollectionsTableContainer from "@/components/Molecules/Container/Table/Collections";
+import TableSkeleton from "@/components/Organisms/Skeleton/Table";
 
 const HomePage = async ({ params }: { params: { lang: Locale } }) => {
   const { lang } = params;
@@ -18,7 +19,7 @@ const HomePage = async ({ params }: { params: { lang: Locale } }) => {
       </Header>
 
       <Header title={dict.component.header.largestCollections} />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<TableSkeleton />}>
         <CollectionsTableContainer lang={lang} limit="5" sort="desc" />
       </Suspense>
     </section>

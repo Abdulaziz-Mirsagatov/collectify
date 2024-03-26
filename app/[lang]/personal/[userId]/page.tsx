@@ -5,6 +5,8 @@ import CollectionForm from "@/components/Molecules/Form/Collection";
 import SearchInput from "@/components/Molecules/Input/Search";
 import UserCard from "@/components/Organisms/Card/User";
 import Header from "@/components/Organisms/Header";
+import CardSkeleton from "@/components/Organisms/Skeleton/Card";
+import TableSkeleton from "@/components/Organisms/Skeleton/Table";
 import { USER_ROLES } from "@/constants/users";
 import { Locale } from "@/i18n-config";
 import { Suspense } from "react";
@@ -29,7 +31,7 @@ const PersonalPage = async ({
 
   return (
     <section className="grow grid content-start gap-8 ">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CardSkeleton />}>
         <UserCard userId={userId} lang={lang} />
       </Suspense>
 
@@ -37,7 +39,7 @@ const PersonalPage = async ({
         <SearchInput dict={dict} />
         <CollectionForm type="create" dict={dict} />
       </Header>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<TableSkeleton />}>
         <UserCollectionsTableContainer
           lang={lang}
           userId={userId}

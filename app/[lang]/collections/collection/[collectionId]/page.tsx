@@ -7,6 +7,8 @@ import SearchInput from "@/components/Molecules/Input/Search";
 import DeleteModal from "@/components/Molecules/Modal/Delete";
 import CollectionCard from "@/components/Organisms/Card/Collection";
 import Header from "@/components/Organisms/Header";
+import CardSkeleton from "@/components/Organisms/Skeleton/Card";
+import TableSkeleton from "@/components/Organisms/Skeleton/Table";
 import { hasEditAccess } from "@/helpers/hasEditAccess";
 import { Locale } from "@/i18n-config";
 import {
@@ -32,7 +34,7 @@ const CollectionPage = async ({
 
   return (
     <section className="grow grid content-start gap-12">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CardSkeleton />}>
         <CollectionCard
           collectionId={collectionId}
           lang={lang}
@@ -48,7 +50,7 @@ const CollectionPage = async ({
           <ItemForm type="create" dict={dict} collectionId={collectionId} />
         )}
       </Header>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<TableSkeleton />}>
         <ItemsTableContainer
           collectionId={collectionId}
           lang={lang}

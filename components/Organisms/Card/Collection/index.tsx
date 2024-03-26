@@ -92,7 +92,7 @@ const CollectionCard = async ({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <h2 className="text-xl md:text-2xl">
+          <h2 className="text-xl md:text-2xl font-bold">
             {dict.component.card.customFields}:{" "}
           </h2>
           <p className="text-lg md:text-xl">
@@ -103,7 +103,7 @@ const CollectionCard = async ({
         </div>
 
         <div className="grid gap-2">
-          <h2 className="text-xl md:text-2xl">
+          <h2 className="text-xl md:text-2xl font-bold">
             {dict.component.card.collection.description}
           </h2>
           <p>

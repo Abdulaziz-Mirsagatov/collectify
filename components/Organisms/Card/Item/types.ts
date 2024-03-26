@@ -4,5 +4,4 @@ export interface ItemCardProps {
   lang: Locale;
   itemId: string;
   collectionId: string;
-  hasAccess: boolean | null;
 }

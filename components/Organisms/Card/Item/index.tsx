@@ -10,19 +10,18 @@ import Header from "../../Header";
 import ItemForm from "@/components/Molecules/Form/Item";
 import DeleteModal from "@/components/Molecules/Modal/Delete";
 import { deleteItem } from "@/services/actions/items";
+import { hasEditAccess } from "@/helpers/hasEditAccess";
+import { auth } from "@/auth";
 
-const ItemCard = async ({
-  lang,
-  itemId,
-  collectionId,
-  hasAccess,
-}: ItemCardProps) => {
-  const [dict, item, customFields, collection] = await Promise.all([
+const ItemCard = async ({ lang, itemId, collectionId }: ItemCardProps) => {
+  const [dict, item, customFields, collection, session] = await Promise.all([
     getDictionary(lang),
     getItem(itemId),
     getCustomFieldsByCollection(collectionId),
     getCollection(collectionId),
+    auth(),
   ]);
+  const hasAccess = hasEditAccess(session, collection);
 
   const [tags, customFieldValues] = await Promise.all([
     getTagsByItem(itemId),
