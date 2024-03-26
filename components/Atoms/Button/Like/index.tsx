@@ -56,11 +56,13 @@ const LikeButton = ({
       <Icon
         icon={`icon-park-solid:like`}
         className={`${
-          userLike ? "text-warning-red" : "text-light/30"
+          userLike ? "text-warning-red" : "text-dark/30 dark:text-light/30"
         } text-3xl cursor-pointer grow`}
         onClick={handleLike}
       />
-      <small className="text-center text-light/30">{numLikes}</small>
+      <small className="text-center text-dark/30 dark:text-light/30">
+        {numLikes}
+      </small>
     </div>
   );
 };

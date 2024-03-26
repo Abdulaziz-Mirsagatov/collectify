@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import UsersTableContainer from "@/components/Molecules/Container/Table/Users";
 import SearchInput from "@/components/Molecules/Input/Search";
 import Header from "@/components/Organisms/Header";
+import TableSkeleton from "@/components/Organisms/Skeleton/Table";
 import { USER_ROLES } from "@/constants/users";
 import { Locale } from "@/i18n-config";
 import { Suspense } from "react";
@@ -27,7 +28,7 @@ const UsersPage = async ({
         <SearchInput dict={dict} />
       </Header>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<TableSkeleton />}>
         <UsersTableContainer lang={lang} search={search} />
       </Suspense>
     </section>

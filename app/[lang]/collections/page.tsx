@@ -4,6 +4,7 @@ import CollectionsTableContainer from "@/components/Molecules/Container/Table/Co
 import CollectionForm from "@/components/Molecules/Form/Collection";
 import SearchInput from "@/components/Molecules/Input/Search";
 import Header from "@/components/Organisms/Header";
+import TableSkeleton from "@/components/Organisms/Skeleton/Table";
 import { Locale } from "@/i18n-config";
 import { Suspense } from "react";
 
@@ -25,7 +26,7 @@ const CollectionsPage = async ({
         {session && <CollectionForm type="create" dict={dict} />}
       </Header>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<TableSkeleton />}>
         <CollectionsTableContainer lang={params.lang} search={search} />
       </Suspense>
     </section>
