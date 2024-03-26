@@ -9,8 +9,8 @@ const CommentsSkeleton = ({ numComments, dict }: CommentsSkeletonProps) => {
       {[...Array(numComments)].map((_, index) => (
         <Skeleton
           key={index}
-          height={140}
-          className="w-full"
+          height={200}
+          className="w-full max-w-[850px]"
           baseColor={SKELETON_BASE_COLOR}
           borderRadius={10}
         />
