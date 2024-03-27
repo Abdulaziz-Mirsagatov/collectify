@@ -1,5 +1,6 @@
 import { SKELETON_BASE_COLOR } from "@/constants/skeleton";
 import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const CardSkeleton = () => {
   return (

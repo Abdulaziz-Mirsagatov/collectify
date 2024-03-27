@@ -1,7 +1,7 @@
 "use client";
 
 import RegularModal from "@/components/Organisms/Modal/Regular";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { CollectionFormProps, FIELD_TYPE } from "./types";
 import { getCategories } from "@/services/actions/categories";
 import { Category, Collection } from "@/types/env";
@@ -19,6 +19,7 @@ import { SingleImageDropzone } from "@/components/Organisms/SingleImageDropzone"
 import { useEdgeStore } from "@/app/edgestore";
 import { imageUrlToFile } from "@/helpers/imageUrlToFile";
 import Markdown from "react-markdown";
+import InputSkeleton from "@/components/Organisms/Skeleton/Input";
 
 const MAX_CUSTOM_FIELDS = 3;
 const FIELD_TYPES = [
@@ -49,8 +50,12 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
   const { edgestore } = useEdgeStore();
   const [serverError, setServerError] = useState(false);
   const [markdownPreview, setMarkdownPreview] = useState(false);
+  const [formReady, setFormReady] = useState(false);
 
   useEffect(() => {
+    if (!isModalOpen) return;
+
+    setFormReady(false);
     getCategories().then((res) => {
       if (Object.hasOwn(res, "error")) {
         setServerError(true);
@@ -89,8 +94,9 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
           );
 
           setSelectedCategory(selectedCategory!);
+          setFormReady(true);
         });
-      }
+      } else setFormReady(true);
     });
   }, [id, isModalOpen]);
 
@@ -234,13 +240,17 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
         className="w-full md:w-[500px] p-2 grid gap-4 max-h-96 overflow-y-auto"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <input
-          type="text"
-          placeholder={dict.component.form.collection.name}
-          className={`input ${errors.name ? "error" : ""}`}
-          {...register("name")}
-        />
-        {categories && selectedCategory && (
+        {formReady ? (
+          <input
+            type="text"
+            placeholder={dict.component.form.collection.name}
+            className={`input ${errors.name ? "error" : ""}`}
+            {...register("name")}
+          />
+        ) : (
+          <InputSkeleton />
+        )}
+        {categories && selectedCategory && formReady ? (
           <div className="grid gap-1">
             <p>{dict.component.form.collection.category}</p>
             <RegularSelectInput
@@ -252,105 +262,126 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
               dictKey="categories"
             />
           </div>
+        ) : (
+          <InputSkeleton />
         )}
-        <div>
-          <textarea
-            placeholder={dict.component.form.collection.description}
-            className="input"
-            {...register("description")}
-          />
-          <div
-            className={`${
-              markdownPreview ? "bg-light dark:bg-dark shadow-md" : ""
-            } w-full rounded-md p-2`}
-          >
-            <span
-              className="dark:text-info-blue/70 cursor-pointer"
-              onClick={() => setMarkdownPreview((prev) => !prev)}
+
+        {formReady ? (
+          <div>
+            <textarea
+              placeholder={dict.component.form.collection.description}
+              className="input"
+              {...register("description")}
+            />
+            <div
+              className={`${
+                markdownPreview ? "bg-light dark:bg-dark shadow-md" : ""
+              } w-full rounded-md p-2`}
             >
-              Preview
-            </span>
-            {markdownPreview && watchDescription && (
-              <Markdown className={"markdown"}>{watchDescription}</Markdown>
-            )}
+              <span
+                className="dark:text-info-blue/70 cursor-pointer"
+                onClick={() => setMarkdownPreview((prev) => !prev)}
+              >
+                Preview
+              </span>
+              {markdownPreview && watchDescription && (
+                <Markdown className={"markdown"}>{watchDescription}</Markdown>
+              )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div>
+            <InputSkeleton height={100} />
+          </div>
+        )}
 
         {type === "create" &&
-          Array.from({ length: customFieldCount }).map((_, i) => (
-            <>
-              <input
-                key={i}
-                type="text"
-                placeholder={dict.component.form.collection.fieldName}
-                className={`input ${
-                  errors[
+          (formReady ? (
+            Array.from({ length: customFieldCount }).map((_, i) => (
+              <Fragment key={i}>
+                <input
+                  type="text"
+                  placeholder={dict.component.form.collection.fieldName}
+                  className={`input ${
+                    errors[
+                      `fieldName${(i + 1).toString()}` as
+                        | "fieldName1"
+                        | "fieldName2"
+                        | "fieldName3"
+                    ]
+                      ? "error"
+                      : ""
+                  }`}
+                  {...register(
                     `fieldName${(i + 1).toString()}` as
                       | "fieldName1"
                       | "fieldName2"
                       | "fieldName3"
-                  ]
-                    ? "error"
-                    : ""
-                }`}
-                {...register(
-                  `fieldName${(i + 1).toString()}` as
-                    | "fieldName1"
-                    | "fieldName2"
-                    | "fieldName3"
-                )}
-              />
-              <div className="grid gap-1">
-                <p>{dict.component.form.collection.fieldType}</p>
-                <RegularSelectInput
-                  options={FIELD_TYPES}
-                  selected={getState(i + 1)}
-                  setSelected={getDispatcher(i + 1)}
-                  labelKey="name"
-                  dict={dict}
-                  dictKey="fieldTypes"
+                  )}
                 />
-              </div>
-            </>
+                <div className="grid gap-1">
+                  <p>{dict.component.form.collection.fieldType}</p>
+                  <RegularSelectInput
+                    options={FIELD_TYPES}
+                    selected={getState(i + 1)}
+                    setSelected={getDispatcher(i + 1)}
+                    labelKey="name"
+                    dict={dict}
+                    dictKey="fieldTypes"
+                  />
+                </div>
+              </Fragment>
+            ))
+          ) : (
+            <InputSkeleton />
           ))}
-        {type === "create" && (
-          <div className="flex justify-between">
-            {customFieldCount < MAX_CUSTOM_FIELDS && (
-              <p
-                className="cursor-pointer"
-                onClick={() => setCustomFieldCount((prev) => prev + 1)}
-              >
-                {dict.component.form.collection.addField} +
-              </p>
-            )}
-            {customFieldCount > 0 && (
-              <p
-                className="text-warning-red cursor-pointer"
-                onClick={() => {
-                  setCustomFieldCount((prev) => prev - 1);
-                  unregister(
-                    `fieldName${customFieldCount}` as
-                      | "fieldName1"
-                      | "fieldName2"
-                      | "fieldName3"
-                  );
-                }}
-              >
-                {dict.component.form.collection.removeField} -
-              </p>
-            )}
-          </div>
-        )}
+        {type === "create" &&
+          (formReady ? (
+            <div className="flex justify-between">
+              {customFieldCount < MAX_CUSTOM_FIELDS && (
+                <p
+                  className="cursor-pointer"
+                  onClick={() => setCustomFieldCount((prev) => prev + 1)}
+                >
+                  {dict.component.form.collection.addField} +
+                </p>
+              )}
+              {customFieldCount > 0 && (
+                <p
+                  className="text-warning-red cursor-pointer"
+                  onClick={() => {
+                    setCustomFieldCount((prev) => prev - 1);
+                    unregister(
+                      `fieldName${customFieldCount}` as
+                        | "fieldName1"
+                        | "fieldName2"
+                        | "fieldName3"
+                    );
+                  }}
+                >
+                  {dict.component.form.collection.removeField} -
+                </p>
+              )}
+            </div>
+          ) : (
+            <InputSkeleton height={20} />
+          ))}
 
         <div className="flex justify-center">
-          <SingleImageDropzone
-            width={200}
-            height={100}
-            value={file}
-            onChange={(file) => {
-              setFile(file);
-            }}
-          />
+          {formReady ? (
+            <SingleImageDropzone
+              width={200}
+              height={100}
+              value={file}
+              onChange={(file) => {
+                setFile(file);
+              }}
+            />
+          ) : (
+            <div className="w-48">
+              <InputSkeleton height={80} />
+            </div>
+          )}
         </div>
 
         {serverError && (
@@ -364,7 +395,7 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
           className={`button ${
             type === "create" ? "button-success" : "button-info"
           } mt-4 ${isSubmitting ? "submitting" : ""}`}
-          disabled={isSubmitting}
+          disabled={isSubmitting || !formReady}
         >
           {type === "create"
             ? dict.component.button.create

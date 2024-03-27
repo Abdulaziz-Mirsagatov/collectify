@@ -1,5 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import { CommentsSkeletonProps } from "./types";
+import "react-loading-skeleton/dist/skeleton.css";
 import { SKELETON_BASE_COLOR } from "@/constants/skeleton";
 
 const CommentsSkeleton = ({ numComments, dict }: CommentsSkeletonProps) => {

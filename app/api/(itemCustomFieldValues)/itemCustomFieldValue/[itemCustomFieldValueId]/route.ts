@@ -14,7 +14,7 @@ export async function PUT(
   { params }: { params: ItemCustomFieldValueRequestParams }
 ) {
   const customFieldValue = await req.json();
-  console.log("id", params.itemCustomFieldValueId);
+
   const existingCustomFieldValue = await prisma.itemCustomFieldValue.findUnique(
     {
       where: {
@@ -22,7 +22,7 @@ export async function PUT(
       },
     }
   );
-  console.log("existingCustomFieldValue", existingCustomFieldValue);
+
   if (!existingCustomFieldValue)
     return NextResponse.json(
       { message: "ItemCustomFieldValue not found" },

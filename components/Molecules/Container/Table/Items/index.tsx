@@ -155,7 +155,7 @@ const ItemsTableContainer = async ({
   });
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto pb-28">
       <RegularTable
         rows={itemRows}
         columns={columns}
