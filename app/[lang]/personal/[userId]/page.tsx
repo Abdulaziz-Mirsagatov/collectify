@@ -38,7 +38,7 @@ const PersonalPage = async ({
 
       <Header title={dict.component.header.myCollections}>
         <SearchInput dict={dict} />
-        <CollectionForm type="create" dict={dict} />
+        <CollectionForm type="create" dict={dict} userId={userId} />
       </Header>
       <Suspense fallback={<TableSkeleton />}>
         <UserCollectionsTableContainer
