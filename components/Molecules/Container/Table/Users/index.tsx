@@ -7,6 +7,7 @@ import DeleteModal from "@/components/Molecules/Modal/Delete";
 import { deleteUser, updateUser } from "@/services/actions/users";
 import { auth } from "@/auth";
 import { USER_ROLES } from "@/constants/users";
+import Link from "next/link";
 
 const UsersTableContainer = async ({
   lang,
@@ -28,7 +29,17 @@ const UsersTableContainer = async ({
         options={[
           {
             label: (
-              <button className="w-48 py-2 px-4 bg-light dark:bg-dark hover:bg-light-gray dark:hover:bg-dark-gray rounded-t-md">
+              <Link
+                href={`/${lang}/personal/${user.id}`}
+                className="block text-center py-2 px-4 bg-light dark:bg-dark hover:bg-light-gray dark:hover:bg-dark-gray rounded-t-md"
+              >
+                {dict.component.button.view}
+              </Link>
+            ),
+          },
+          {
+            label: (
+              <button className="w-48 py-2 px-4 bg-light dark:bg-dark hover:bg-light-gray dark:hover:bg-dark-gray">
                 {dict.component.button.grantAdmin}
               </button>
             ),
@@ -37,7 +48,7 @@ const UsersTableContainer = async ({
           },
           {
             label: (
-              <button className="w-48 py-2 px-4 text-warning-yellow bg-light dark:bg-dark hover:bg-light-gray dark:hover:bg-dark-gray rounded-t-md">
+              <button className="w-48 py-2 px-4 text-warning-yellow bg-light dark:bg-dark hover:bg-light-gray dark:hover:bg-dark-gray">
                 {dict.component.button.removeAdmin}
               </button>
             ),
