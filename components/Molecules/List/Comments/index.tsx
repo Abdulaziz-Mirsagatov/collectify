@@ -13,6 +13,7 @@ import { pusherClient } from "@/pusher/client";
 
 const CommentsList = ({
   initialComments,
+  users,
   userId,
   itemId,
   dict,
@@ -42,11 +43,12 @@ const CommentsList = ({
 
   return (
     <>
-      {comments.map((comment) => (
+      {comments.map((comment, i) => (
         <CommentInput
           key={comment.id}
           dict={dict}
           itemId={itemId}
+          user={users[i]}
           userId={userId}
           initialComment={comment}
           onComment={addComment}

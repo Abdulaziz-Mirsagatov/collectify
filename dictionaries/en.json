@@ -58,7 +58,11 @@
         "description": "Description",
         "author": "Author",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "books": "Books",
+        "silverware": "Silverware",
+        "signs": "Signs",
+        "other": "Other"
       },
       "items": {
         "name": "Name",

@@ -224,7 +224,7 @@ const CollectionForm = ({ dict, userId, type, id }: CollectionFormProps) => {
     <RegularModal
       isModalOpen={isModalOpen}
       setIsModalOpen={setIsModalOpen}
-      title="Create Collection"
+      title={dict.component.form.collection[type]}
       trigger={
         <button
           className={`button ${

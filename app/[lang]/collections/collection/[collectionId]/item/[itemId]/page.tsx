@@ -8,9 +8,12 @@ import { Suspense } from "react";
 
 const ItemPage = async ({
   params,
+  searchParams,
 }: {
   params: { lang: Locale; itemId: string; collectionId: string };
+  searchParams: { search: string; limit: string; sort: string };
 }) => {
+  const { search, limit, sort } = searchParams;
   const { lang, itemId, collectionId } = params;
   const dict = await getDictionary(lang);
 
@@ -21,7 +24,13 @@ const ItemPage = async ({
       </Suspense>
 
       <Suspense fallback={<CommentsSkeleton dict={dict} />}>
-        <CommentsContainer lang={lang} itemId={itemId} />
+        <CommentsContainer
+          lang={lang}
+          itemId={itemId}
+          search={search}
+          limit={limit}
+          sort={sort as "asc" | "desc"}
+        />
       </Suspense>
     </section>
   );

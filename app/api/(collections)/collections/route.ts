@@ -13,10 +13,44 @@ export async function GET(req: NextRequest) {
 
   const collections = await prisma.collection.findMany({
     where: {
-      name: {
-        contains: search,
-        mode: "insensitive",
-      },
+      OR: [
+        {
+          name: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+        {
+          category: {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        },
+        {
+          user: {
+            name: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        },
+        {
+          items: {
+            some: {
+              tags: {
+                some: {
+                  name: {
+                    contains: search,
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          },
+        },
+      ],
     },
     take: limit ? parseInt(limit) : undefined,
     orderBy: sort
