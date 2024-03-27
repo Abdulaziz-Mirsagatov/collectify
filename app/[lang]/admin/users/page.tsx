@@ -1,5 +1,6 @@
 import { getDictionary } from "@/app/dictionaries";
 import { auth } from "@/auth";
+import AccessDeniedError from "@/components/Atoms/Error/AccessDenied";
 import UsersTableContainer from "@/components/Molecules/Container/Table/Users";
 import SearchInput from "@/components/Molecules/Input/Search";
 import Header from "@/components/Organisms/Header";
@@ -20,7 +21,7 @@ const UsersPage = async ({
   const [dict, session] = await Promise.all([getDictionary(lang), auth()]);
 
   if (!session || session.user?.role !== USER_ROLES.ADMIN)
-    return <div>Forbidden</div>;
+    return <AccessDeniedError dict={dict} />;
 
   return (
     <section className="grow grid content-start gap-8">

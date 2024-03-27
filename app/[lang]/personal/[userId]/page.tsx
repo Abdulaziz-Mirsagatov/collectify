@@ -1,5 +1,6 @@
 import { getDictionary } from "@/app/dictionaries";
 import { auth } from "@/auth";
+import AccessDeniedError from "@/components/Atoms/Error/AccessDenied";
 import UserCollectionsTableContainer from "@/components/Molecules/Container/Table/UserCollections";
 import CollectionForm from "@/components/Molecules/Form/Collection";
 import SearchInput from "@/components/Molecules/Input/Search";
@@ -27,7 +28,7 @@ const PersonalPage = async ({
     !session ||
     (session.user?.userId !== userId && session.user?.role !== USER_ROLES.ADMIN)
   )
-    return <div>Forbidden</div>;
+    return <AccessDeniedError dict={dict} />;
 
   return (
     <section className="grow grid content-start gap-8 ">
