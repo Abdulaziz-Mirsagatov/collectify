@@ -236,6 +236,7 @@
     "removeAdmin": "Remove admin rights",
     "grantAdmin": "Grant admin rights",
     "deleteTitle": "Delete",
-    "deleteMessage": "Are you sure you want to delete"
+    "deleteMessage": "Are you sure you want to delete",
+    "accessDenied": "Access denied"
   }
 }
