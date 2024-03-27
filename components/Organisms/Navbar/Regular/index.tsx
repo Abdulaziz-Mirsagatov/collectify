@@ -29,7 +29,11 @@ const RegularNavbar = async ({ lang }: RegularNavbarProps) => {
           <Image
             width={45}
             height={45}
-            src={session.user?.image ?? userPlaceholderImage}
+            src={
+              session.user?.image !== "" && session.user?.image
+                ? session.user.image
+                : userPlaceholderImage
+            }
             alt="user placeholder"
             className="hidden lg:block aspect-square rounded-full object-cover"
           />
