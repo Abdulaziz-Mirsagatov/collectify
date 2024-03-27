@@ -17,6 +17,19 @@ import {
   updateItemCustomFieldValue,
 } from "@/services/actions/itemCustomFieldValues";
 import { CUSTOM_FIELD_TYPES } from "@/constants/customFields";
+import CustomFieldInput from "@/components/Atoms/Input/CustomField";
+import getCustomFieldValue from "@/helpers/getCustomFielValue";
+import InputSkeleton from "@/components/Organisms/Skeleton/Input";
+
+const DEFAULT_CUSTOM_FIELD_VALUE: ItemCustomFieldValue = {
+  customFieldId: "",
+  itemId: "",
+  stringValue: "",
+  intValue: 0,
+  dateValue: new Date(),
+  booleanValue: false,
+  multilineValue: "",
+} as ItemCustomFieldValue;
 
 const ItemForm = ({
   dict,
@@ -36,13 +49,30 @@ const ItemForm = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [serverError, setServerError] = useState(false);
   const [customFields, setCustomFields] = useState<CustomField[]>([]);
+  const [customFieldValues, setCustomFieldValues] = useState<
+    ItemCustomFieldValue[]
+  >([]);
   const [tags, setTags] = useState<string[]>([]);
+  const [formReady, setFormReady] = useState(false);
+  const [customFieldsReady, setCustomFieldsReady] = useState(false);
 
   // initialize form
   useEffect(() => {
+    if (!isModalOpen) return;
+
+    setServerError(false);
+    setFormReady(false);
+    setCustomFieldsReady(false);
     getCustomFieldsByCollection(collectionId)
       .then((customFields) => {
         setCustomFields(customFields);
+
+        const initialValues: ItemCustomFieldValue[] = [];
+        customFields.forEach(() => {
+          initialValues.push(DEFAULT_CUSTOM_FIELD_VALUE);
+        });
+        setCustomFieldValues(initialValues);
+        setCustomFieldsReady(true);
 
         if (type === "edit" && id) {
           // Fetch item data
@@ -64,57 +94,31 @@ const ItemForm = ({
               }
               const customFieldValues = res as ItemCustomFieldValue[];
 
-              customFields.forEach((field, i) => {
+              const values: ItemCustomFieldValue[] = [];
+              customFields.forEach((field) => {
                 const customFieldValue = customFieldValues.find(
                   (value) => value.customFieldId === field.id
                 );
 
-                switch (field.type) {
-                  case CUSTOM_FIELD_TYPES.TEXT:
-                    reset({
-                      [`customField${(i + 1).toString()}`]:
-                        customFieldValue?.stringValue,
-                    });
-                    break;
-                  case CUSTOM_FIELD_TYPES.NUMBER:
-                    reset({
-                      [`customField${(i + 1).toString()}`]:
-                        customFieldValue?.intValue,
-                    });
-                    break;
-                  case CUSTOM_FIELD_TYPES.DATE:
-                    reset({
-                      [`customField${(i + 1).toString()}`]:
-                        customFieldValue?.dateValue,
-                    });
-                    break;
-                  case CUSTOM_FIELD_TYPES.BOOLEAN:
-                    reset({
-                      [`customField${(i + 1).toString()}`]:
-                        customFieldValue?.booleanValue,
-                    });
-                    break;
-                  case CUSTOM_FIELD_TYPES.MULTILINE:
-                    reset({
-                      [`customField${(i + 1).toString()}`]:
-                        customFieldValue?.multilineValue,
-                    });
-                    break;
+                values.push(customFieldValue ?? DEFAULT_CUSTOM_FIELD_VALUE);
+              });
+              setCustomFieldValues(values);
+              setCustomFieldsReady(true);
+
+              // Fetch tags
+              getTagsByItem(id).then((res) => {
+                if (Object.hasOwn(res, "error")) {
+                  setServerError(true);
+                  return;
                 }
+                const tags = res.map((tag) => tag.name);
+                setTags(tags);
+
+                setFormReady(true);
               });
             });
           });
-
-          // Fetch tags
-          getTagsByItem(id).then((res) => {
-            if (Object.hasOwn(res, "error")) {
-              setServerError(true);
-              return;
-            }
-            const tags = res.map((tag) => tag.name);
-            setTags(tags);
-          });
-        }
+        } else setFormReady(true);
       })
       .catch(() => setServerError(true));
   }, [isModalOpen]);
@@ -140,18 +144,41 @@ const ItemForm = ({
       }
       const item = resItem as Item;
 
-      if (data.customField1) {
-        const res = await addCustomFieldValue(data.customField1, item.id, 0);
-        if (!res) return;
-      }
-      if (data.customField2) {
-        const res = await addCustomFieldValue(data.customField2, item.id, 1);
-        if (!res) return;
-      }
-      if (data.customField3) {
-        const res = await addCustomFieldValue(data.customField3, item.id, 2);
-        if (!res) return;
-      }
+      let errorFlag = false;
+      customFieldValues.forEach(async (fieldValue, i) => {
+        const value = getCustomFieldValue(customFields[i], fieldValue);
+
+        const res = await addItemCustomFieldValue({
+          itemId: item.id,
+          customFieldId: customFields[i].id,
+          stringValue:
+            customFields[i].type === CUSTOM_FIELD_TYPES.TEXT
+              ? (value as string)
+              : undefined,
+          intValue:
+            customFields[i].type === CUSTOM_FIELD_TYPES.NUMBER
+              ? Number(value)
+              : undefined,
+          dateValue:
+            customFields[i].type === CUSTOM_FIELD_TYPES.DATE
+              ? new Date(value as string)
+              : undefined,
+          booleanValue:
+            customFields[i].type === CUSTOM_FIELD_TYPES.BOOLEAN
+              ? Boolean(value)
+              : undefined,
+          multilineValue:
+            customFields[i].type === CUSTOM_FIELD_TYPES.MULTILINE
+              ? (value as string)
+              : undefined,
+        });
+
+        if (!res) {
+          errorFlag = true;
+          return;
+        }
+      });
+      if (errorFlag) return;
 
       await Promise.allSettled(
         tags.map((tag) =>
@@ -173,173 +200,49 @@ const ItemForm = ({
       }
       const item = resItem as Item;
 
-      getItemCustomFieldValuesByItem(item.id).then(async (res) => {
+      let errorFlag = false;
+      customFieldValues.forEach(async (fieldValue, i) => {
+        const value = getCustomFieldValue(customFields[i], fieldValue);
+        if (value === null || value === undefined) return;
+
+        const res = await updateItemCustomFieldValue(fieldValue.id, {
+          stringValue:
+            customFields[i].type === CUSTOM_FIELD_TYPES.TEXT
+              ? (value as string)
+              : undefined,
+          intValue:
+            customFields[i].type === CUSTOM_FIELD_TYPES.NUMBER
+              ? Number(value)
+              : undefined,
+          dateValue:
+            customFields[i].type === CUSTOM_FIELD_TYPES.DATE
+              ? new Date(value as string)
+              : undefined,
+          booleanValue:
+            customFields[i].type === CUSTOM_FIELD_TYPES.BOOLEAN
+              ? Boolean(value)
+              : undefined,
+          multilineValue:
+            customFields[i].type === CUSTOM_FIELD_TYPES.MULTILINE
+              ? (value as string)
+              : undefined,
+        });
+
         if (Object.hasOwn(res, "error")) {
-          setServerError(true);
+          errorFlag = true;
           return;
         }
-        const itemCustomFieldValues = res as ItemCustomFieldValue[];
-
-        if (data.customField1) {
-          const res = await updateCustomFieldValue(
-            itemCustomFieldValues.find(
-              (value) => value.customFieldId === customFields[0].id
-            )?.id || "",
-            data.customField1,
-            0
-          );
-          if (!res) return;
-        }
-        if (data.customField2) {
-          const res = await updateCustomFieldValue(
-            itemCustomFieldValues.find(
-              (value) => value.customFieldId === customFields[1].id
-            )?.id || "",
-            data.customField2,
-            1
-          );
-          if (!res) return;
-        }
-        if (data.customField3) {
-          const res = await updateCustomFieldValue(
-            itemCustomFieldValues.find(
-              (value) => value.customFieldId === customFields[2].id
-            )?.id || "",
-            data.customField3,
-            2
-          );
-          if (!res) return;
-        }
       });
+      if (errorFlag) {
+        setServerError(true);
+        return;
+      }
 
       await updateItemTags(item.id, tags);
 
       reset();
       setTags([]);
       setIsModalOpen(false);
-    }
-  };
-
-  const addCustomFieldValue = async (
-    value: string,
-    itemId: string,
-    i: number
-  ) => {
-    const resCustomFieldValue = await addItemCustomFieldValue({
-      itemId,
-      customFieldId: customFields[i].id,
-      stringValue:
-        customFields[i].type === CUSTOM_FIELD_TYPES.TEXT ? value : undefined,
-      intValue:
-        customFields[i].type === CUSTOM_FIELD_TYPES.NUMBER
-          ? Number(value)
-          : undefined,
-      dateValue:
-        customFields[i].type === CUSTOM_FIELD_TYPES.DATE
-          ? new Date(value)
-          : undefined,
-      booleanValue:
-        customFields[i].type === CUSTOM_FIELD_TYPES.BOOLEAN
-          ? Boolean(value)
-          : undefined,
-      multilineValue:
-        customFields[i].type === CUSTOM_FIELD_TYPES.MULTILINE
-          ? value
-          : undefined,
-    });
-    if (Object.hasOwn(resCustomFieldValue, "error")) {
-      setServerError(true);
-      return false;
-    }
-    return true;
-  };
-
-  const updateCustomFieldValue = async (
-    customFieldValueId: string,
-    value: string,
-    i: number
-  ) => {
-    const resCustomFieldValue = await updateItemCustomFieldValue(
-      customFieldValueId,
-      {
-        customFieldId: customFields[i].id,
-        stringValue:
-          customFields[i].type === CUSTOM_FIELD_TYPES.TEXT ? value : undefined,
-        intValue:
-          customFields[i].type === CUSTOM_FIELD_TYPES.NUMBER
-            ? Number(value)
-            : undefined,
-        dateValue:
-          customFields[i].type === CUSTOM_FIELD_TYPES.DATE
-            ? new Date(value)
-            : undefined,
-        booleanValue:
-          customFields[i].type === CUSTOM_FIELD_TYPES.BOOLEAN
-            ? Boolean(value)
-            : undefined,
-        multilineValue:
-          customFields[i].type === CUSTOM_FIELD_TYPES.MULTILINE
-            ? value
-            : undefined,
-      }
-    );
-    if (Object.hasOwn(resCustomFieldValue, "error")) {
-      setServerError(true);
-      return false;
-    }
-    return true;
-  };
-
-  const renderCustomField = (field: CustomField, i: number) => {
-    switch (field.type) {
-      case "multiline":
-        return (
-          <textarea
-            key={field.id}
-            placeholder={field.name}
-            className={`input`}
-            {...register(
-              `customField${(i + 1).toString()}` as
-                | "customField1"
-                | "customField2"
-                | "customField3"
-            )}
-          />
-        );
-      case "boolean":
-        return (
-          <div className="flex items-center gap-4">
-            <label htmlFor={`customField${(i + 1).toString()}`}>
-              {field.name}
-            </label>
-            <input
-              key={field.id}
-              type="checkbox"
-              className={`input`}
-              {...register(
-                `customField${(i + 1).toString()}` as
-                  | "customField1"
-                  | "customField2"
-                  | "customField3"
-              )}
-            />
-          </div>
-        );
-      default:
-        return (
-          <input
-            key={field.id}
-            type={field.type}
-            placeholder={field.name}
-            className={`input`}
-            {...register(
-              `customField${(i + 1).toString()}` as
-                | "customField1"
-                | "customField2"
-                | "customField3"
-            )}
-          />
-        );
     }
   };
 
@@ -363,16 +266,63 @@ const ItemForm = ({
         className="w-full md:w-[500px] p-2 grid gap-4 max-h-96 overflow-y-auto"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <input
-          type="text"
-          placeholder={dict.component.form.item.name}
-          className={`input ${errors.name ? "error" : ""}`}
-          {...register("name")}
-        />
+        {formReady ? (
+          <input
+            type="text"
+            placeholder={dict.component.form.item.name}
+            className={`input ${errors.name ? "error" : ""}`}
+            {...register("name")}
+          />
+        ) : (
+          <InputSkeleton />
+        )}
 
-        <TagsInput tags={tags} setTags={setTags} dict={dict} />
+        {formReady ? (
+          <TagsInput tags={tags} setTags={setTags} dict={dict} />
+        ) : (
+          <InputSkeleton />
+        )}
 
-        {customFields.map((field, i) => renderCustomField(field, i))}
+        {formReady && customFieldsReady
+          ? customFields.map((field, i) => (
+              <CustomFieldInput
+                key={field.id}
+                customField={field}
+                value={getCustomFieldValue(field, customFieldValues[i])}
+                onChange={(value) =>
+                  setCustomFieldValues((prev) => {
+                    const newValues = [...prev];
+                    newValues[i] = {
+                      ...newValues[i],
+                      stringValue:
+                        field.type === CUSTOM_FIELD_TYPES.TEXT
+                          ? value
+                          : undefined,
+                      intValue:
+                        field.type === CUSTOM_FIELD_TYPES.NUMBER
+                          ? Number(value)
+                          : undefined,
+                      dateValue:
+                        field.type === CUSTOM_FIELD_TYPES.DATE
+                          ? new Date(value as string)
+                          : undefined,
+                      booleanValue:
+                        field.type === CUSTOM_FIELD_TYPES.BOOLEAN
+                          ? Boolean(value)
+                          : undefined,
+                      multilineValue:
+                        field.type === CUSTOM_FIELD_TYPES.MULTILINE
+                          ? value
+                          : undefined,
+                    };
+                    return newValues;
+                  })
+                }
+              />
+            ))
+          : [...Array(customFields.length)].map((_, i) => (
+              <InputSkeleton key={i} />
+            ))}
 
         {serverError && <p className="text-warning-red">{dict.serverError}</p>}
 
@@ -380,7 +330,7 @@ const ItemForm = ({
           className={`button ${
             type === "create" ? "button-success" : "button-info"
           } mt-4 ${isSubmitting ? "submitting" : ""}`}
-          disabled={isSubmitting}
+          disabled={isSubmitting || !formReady || !customFieldsReady}
         >
           {type === "create"
             ? dict.component.button.create

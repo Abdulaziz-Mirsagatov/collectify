@@ -72,7 +72,7 @@ const UsersTableContainer = async ({
   });
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto pb-28">
       <RegularTable
         rows={users}
         columns={columns}

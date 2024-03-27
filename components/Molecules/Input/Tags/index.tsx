@@ -79,7 +79,7 @@ const TagsInput = ({ tags, setTags, dict }: TagsInputProps) => {
           onClick={(e) => removeTag(e, i)}
         />
       ))}
-      <div className="relative flex items-center px-1">
+      <div className="relative grow flex items-center px-1">
         <input
           type="text"
           placeholder={dict.component.input.tags.placeholder}

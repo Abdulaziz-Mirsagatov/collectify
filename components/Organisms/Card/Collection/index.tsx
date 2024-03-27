@@ -11,6 +11,7 @@ import Header from "../../Header";
 import CollectionForm from "@/components/Molecules/Form/Collection";
 import DeleteModal from "@/components/Molecules/Modal/Delete";
 import { deleteCollection } from "@/services/actions/collections";
+import ControlledMarkdown from "../../Controlled/Markdown";
 
 const CollectionCard = async ({
   collectionId,
@@ -106,9 +107,11 @@ const CollectionCard = async ({
           <h2 className="text-xl md:text-2xl font-bold">
             {dict.component.card.collection.description}
           </h2>
-          <p>
-            <Markdown className={"markdown"}>{collection.description}</Markdown>
-          </p>
+          {collection.description && (
+            <p>
+              <ControlledMarkdown content={collection.description} />
+            </p>
+          )}
         </div>
       </div>
     </div>

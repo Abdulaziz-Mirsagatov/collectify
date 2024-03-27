@@ -11,15 +11,20 @@ import { SingleImageDropzone } from "@/components/Organisms/SingleImageDropzone"
 import { imageUrlToFile } from "@/helpers/imageUrlToFile";
 import { User } from "@/types/env";
 import { useEdgeStore } from "@/app/edgestore";
+import InputSkeleton from "@/components/Organisms/Skeleton/Input";
 
 const UserForm = ({ userId, lang, dict }: UserFormProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [file, setFile] = useState<File>();
   const [serverError, setServerError] = useState<string>("");
   const [initialUsername, setInitialUsername] = useState<string>("");
+  const [formReady, setFormReady] = useState(false);
   const { edgestore } = useEdgeStore();
 
   useEffect(() => {
+    if (!isModalOpen) return;
+
+    setFormReady(false);
     getUser(userId).then((user) => {
       reset(user);
       setInitialUsername(user.username ?? "");
@@ -29,6 +34,7 @@ const UserForm = ({ userId, lang, dict }: UserFormProps) => {
           if (file) setFile(file);
         });
       }
+      setFormReady(true);
     });
   }, [userId, isModalOpen]);
 
@@ -92,45 +98,59 @@ const UserForm = ({ userId, lang, dict }: UserFormProps) => {
         className="w-full md:w-[500px] p-2 grid gap-4 max-h-96 overflow-y-auto"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div>
-          <input
-            type="text"
-            className={`input 
+        {formReady ? (
+          <div>
+            <input
+              type="text"
+              className={`input 
         ${errors.name ? "error" : ""}
         `}
-            placeholder={dict.page.register.name}
-            {...register("name")}
-          />
-          {errors.name && (
-            <p className="text-warning-red text-sm mt-1">
-              {dict.page.register.errors.nameInvalid}
-            </p>
-          )}
-        </div>
+              placeholder={dict.page.register.name}
+              {...register("name")}
+            />
+            {errors.name && (
+              <p className="text-warning-red text-sm mt-1">
+                {dict.page.register.errors.nameInvalid}
+              </p>
+            )}
+          </div>
+        ) : (
+          <InputSkeleton />
+        )}
 
-        <div>
-          <input
-            type="text"
-            className={`input ${errors.username ? "error" : ""}`}
-            placeholder={dict.page.register.username}
-            {...register("username")}
-          />
-          {errors.username && (
-            <p className="text-warning-red text-sm mt-1">
-              {dict.page.register.errors.usernameInvalid}
-            </p>
-          )}
-        </div>
+        {formReady ? (
+          <div>
+            <input
+              type="text"
+              className={`input ${errors.username ? "error" : ""}`}
+              placeholder={dict.page.register.username}
+              {...register("username")}
+            />
+            {errors.username && (
+              <p className="text-warning-red text-sm mt-1">
+                {dict.page.register.errors.usernameInvalid}
+              </p>
+            )}
+          </div>
+        ) : (
+          <InputSkeleton />
+        )}
 
         <div className="flex justify-center">
-          <SingleImageDropzone
-            width={200}
-            height={100}
-            value={file}
-            onChange={(file) => {
-              setFile(file);
-            }}
-          />
+          {formReady ? (
+            <SingleImageDropzone
+              width={200}
+              height={100}
+              value={file}
+              onChange={(file) => {
+                setFile(file);
+              }}
+            />
+          ) : (
+            <div className="w-48">
+              <InputSkeleton height={80} />
+            </div>
+          )}
         </div>
 
         {serverError && (
@@ -143,6 +163,7 @@ const UserForm = ({ userId, lang, dict }: UserFormProps) => {
           className={`button button-info mt-4 ${
             isSubmitting ? "submitting" : ""
           }`}
+          disabled={!formReady || isSubmitting}
         >
           {dict.component.button.edit}
         </button>
