@@ -26,7 +26,7 @@ const renderItem = <T extends Record<string, any>>(
         timeZone: "Asia/Tashkent",
       });
     }
-    return row[column];
+    return Object.hasOwn(dict, row[column]) ? dict[row[column]] : row[column];
   } else return "-";
 };
 

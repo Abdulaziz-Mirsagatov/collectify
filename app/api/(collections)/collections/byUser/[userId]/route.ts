@@ -23,10 +23,36 @@ export async function GET(
           userId,
         },
         {
-          name: {
-            contains: search,
-            mode: "insensitive",
-          },
+          OR: [
+            {
+              name: {
+                contains: search,
+                mode: "insensitive",
+              },
+            },
+            {
+              category: {
+                name: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              },
+            },
+            {
+              items: {
+                some: {
+                  tags: {
+                    some: {
+                      name: {
+                        contains: search,
+                        mode: "insensitive",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          ],
         },
       ],
     },

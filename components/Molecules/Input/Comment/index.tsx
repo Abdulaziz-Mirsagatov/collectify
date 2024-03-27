@@ -10,6 +10,7 @@ const MAX_COMMENT_LENGTH = 500;
 const CommentInput = ({
   dict,
   itemId,
+  user,
   userId,
   initialComment,
   isInputMode = false,
@@ -86,26 +87,33 @@ const CommentInput = ({
         </button>
       );
 
-    if (!inputMode && comment?.userId === userId)
+    if (!inputMode)
       return (
-        <div
-          className={`w-full h-10 flex justify-end items-center gap-2 ${
-            editControlsVisible ? "visible" : "invisible"
-          }`}
-        >
-          <button
-            className="px-2 py-1 bg-info-blue hover:bg-info-blue/70 cursor-pointer rounded-lg shadow-md text-sm transition-colors"
-            disabled={disabled}
-          >
-            {dict.component.button.edit}
-          </button>
-          <button
-            className="px-2 py-1 bg-warning-red hover:bg-warning-red/70 cursor-pointer rounded-lg shadow-md text-sm transition-colors"
-            disabled={disabled}
-            onClick={handleDeleteComment}
-          >
-            {dict.component.button.delete}
-          </button>
+        <div className="w-full h-10 flex flex-wrap justify-between items-center gap-2 px-2">
+          <p className="text-dark-gray/70 dark:text-light-gray/70">
+            {user?.username ?? user?.name}
+          </p>
+          {comment?.userId === userId && (
+            <div
+              className={`flex items-center gap-2 ${
+                editControlsVisible ? "visible" : "invisible"
+              }`}
+            >
+              <button
+                className="px-2 py-1 bg-info-blue hover:bg-info-blue/70 cursor-pointer rounded-lg shadow-md text-sm transition-colors"
+                disabled={disabled}
+              >
+                {dict.component.button.edit}
+              </button>
+              <button
+                className="px-2 py-1 bg-warning-red hover:bg-warning-red/70 cursor-pointer rounded-lg shadow-md text-sm transition-colors"
+                disabled={disabled}
+                onClick={handleDeleteComment}
+              >
+                {dict.component.button.delete}
+              </button>
+            </div>
+          )}
         </div>
       );
 

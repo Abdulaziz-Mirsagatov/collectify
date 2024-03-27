@@ -120,7 +120,7 @@ const ItemCard = async ({ lang, itemId, collectionId }: ItemCardProps) => {
                 <>
                   <p
                     key={tag.id}
-                    className="py-1 px-2 dark:bg-dark-gray rounded-md"
+                    className="py-1 px-2 bg-light-gray dark:bg-dark-gray rounded-md"
                   >
                     {tag.name}
                   </p>
