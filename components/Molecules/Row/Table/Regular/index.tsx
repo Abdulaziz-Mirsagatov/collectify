@@ -2,6 +2,7 @@ import Image from "next/image";
 import { RegularTableRowProps } from "./types";
 import placeholder from "@/public/images/placeholder2.jpg";
 import { Locale } from "@/i18n-config";
+import isIsoDate from "@/helpers/isIsoDate";
 
 const renderItem = <T extends Record<string, any>>(
   row: T,
@@ -17,11 +18,7 @@ const renderItem = <T extends Record<string, any>>(
     else if (Array.isArray(row[column])) {
       return row[column].join(", ");
     } // if string has letter T and date
-    else if (
-      typeof row[column] === "string" &&
-      row[column].split("").some((l: string) => l === "T") &&
-      new Date(row[column]).toString() !== "Invalid Date"
-    ) {
+    else if (isIsoDate(row[column])) {
       return new Date(row[column]).toLocaleDateString(locale, {
         timeZone: "Asia/Tashkent",
       });

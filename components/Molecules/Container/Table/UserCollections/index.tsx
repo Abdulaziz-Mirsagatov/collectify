@@ -51,7 +51,7 @@ const UserCollectionsTableContainer = async ({
       <RegularTable
         rows={collectionRows}
         columns={columns}
-        dict={dict}
+        dict={dict.component.table.users}
         lang={lang}
         buttons={buttons}
       />
