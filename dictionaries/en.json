@@ -62,7 +62,8 @@
         "books": "Books",
         "silverware": "Silverware",
         "signs": "Signs",
-        "other": "Other"
+        "other": "Other",
+        "createdAt": "Created At"
       },
       "items": {
         "name": "Name",
