@@ -78,7 +78,9 @@
         "category": "Category",
         "role": "Role",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "admin": "Admin",
+        "user": "User"
       }
     },
     "button": {
